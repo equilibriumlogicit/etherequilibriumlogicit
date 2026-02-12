@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ether Logic | Spiritual Matrix</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=JetBrains+Mono:wght@100;200&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; background: #000; color: #fff; margin: 0; overflow-x: hidden; }
+
+        /* --- FONDO MATRIX --- */
+        #matrix-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.7; pointer-events: none; }
+
+        /* --- EFECTO ENCENDER/APAGAR LOGO (RESTAURADO) --- */
+        @keyframes neonPulse {
+            0%, 100% { filter: grayscale(100%) brightness(0.1) drop-shadow(0 0 0px #6366f1); opacity: 0.3; transform: scale(0.97); }
+            45%, 55% { filter: grayscale(0%) brightness(1.2) drop-shadow(0 0 20px #6366f1); opacity: 1; transform: scale(1.03); }
+            50% { filter: grayscale(0%) brightness(2) drop-shadow(0 0 40px #6366f1); opacity: 0.9; }
+        }
+
+        .brand-logo-img { 
+            width: 140px; height: 140px; object-fit: cover; border-radius: 16px; 
+            border: 2px solid rgba(255,255,255,0.1); 
+            animation: neonPulse 6s ease-in-out infinite; 
+        }
+
+        /* --- SIDEBARS --- */
+        .sidebar { position: fixed; top: 0; height: 100vh; width: 350px; background: #080808; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); z-index: 2000; padding: 2.5rem; overflow-y: auto; }
+        #langSidebar { left: -350px; border-right: 1px solid rgba(99, 102, 241, 0.3); }
+        #menuSidebar { right: -350px; border-left: 1px solid rgba(99, 102, 241, 0.3); }
+        #langSidebar.active { transform: translateX(350px); }
+        #menuSidebar.active { transform: translateX(-350px); }
+
+        .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); opacity: 0; visibility: hidden; transition: 0.4s; z-index: 1500; }
+        .sidebar-overlay.active { opacity: 1; visibility: visible; }
+
+        /* --- HEADER & CARDS --- */
+        .glass-header { background: rgba(0,0,0,0.85); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.05); position: fixed; width: 100%; top: 0; z-index: 100; }
+        .service-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.08); padding: 3rem; border-radius: 20px; transition: 0.4s; position: relative; z-index: 10; }
+        .service-card:hover { border-color: #6366f1; transform: translateY(-10px); background: rgba(99, 102, 241, 0.05); }
+        .lang-active { border-color: #6366f1 !important; background: rgba(99, 102, 241, 0.1) !important; color: #6366f1; }
+    </style>
+</head>
+<body>
+
+    <canvas id="matrix-canvas"></canvas>
+    <div id="overlay" class="sidebar-overlay" onclick="closeAllMenus()"></div>
+
+    <div id="langSidebar" class="sidebar">
+        <div class="flex justify-between items-center mb-10 text-indigo-500 font-bold uppercase tracking-widest text-[10px]">
+            <span>Seleccionar Idioma</span>
+            <button onclick="closeAllMenus()"><i class="fas fa-times text-lg"></i></button>
+        </div>
+        <div class="space-y-3" id="langOptions">
+            <button onclick="changeLang('es')" id="lang-es" class="w-full text-left p-4 border border-white/5 bg-white/5 rounded-lg flex justify-between items-center hover:border-indigo-500 transition-all"><span>Español</span><span class="text-xs opacity-40">ES</span></button>
+            <button onclick="changeLang('en')" id="lang-en" class="w-full text-left p-4 border border-white/5 bg-white/5 rounded-lg flex justify-between items-center hover:border-indigo-500 transition-all"><span>English</span><span class="text-xs opacity-40">EN</span></button>
+            <button onclick="changeLang('it')" id="lang-it" class="w-full text-left p-4 border border-white/5 bg-white/5 rounded-lg flex justify-between items-center hover:border-indigo-500 transition-all"><span>Italiano</span><span class="text-xs opacity-40">IT</span></button>
+            <button onclick="changeLang('de')" id="lang-de" class="w-full text-left p-4 border border-white/5 bg-white/5 rounded-lg flex justify-between items-center hover:border-indigo-500 transition-all"><span>Deutsch</span><span class="text-xs opacity-40">DE</span></button>
+            <button onclick="changeLang('fr')" id="lang-fr" class="w-full text-left p-4 border border-white/5 bg-white/5 rounded-lg flex justify-between items-center hover:border-indigo-500 transition-all"><span>Français</span><span class="text-xs opacity-40">FR</span></button>
+            <button onclick="changeLang('pt')" id="lang-pt" class="w-full text-left p-4 border border-white/5 bg-white/5 rounded-lg flex justify-between items-center hover:border-indigo-500 transition-all"><span>Português</span><span class="text-xs opacity-40">PT</span></button>
+        </div>
+    </div>
+
+    <div id="menuSidebar" class="sidebar">
+        <div class="flex justify-between items-center mb-10 text-indigo-500 font-bold uppercase tracking-widest text-[10px]">
+            <span>Áreas Técnicas</span>
+            <button onclick="closeAllMenus()"><i class="fas fa-times text-lg"></i></button>
+        </div>
+        <div class="space-y-4">
+            <a href="#" class="block p-5 bg-white/5 rounded-lg border border-transparent hover:border-indigo-500 text-xs font-bold uppercase tracking-widest transition-all">Arquitectura Core</a>
+            <a href="#" class="block p-5 bg-white/5 rounded-lg border border-transparent hover:border-indigo-500 text-xs font-bold uppercase tracking-widest transition-all">Ciberseguridad</a>
+            <a href="#" class="block p-5 bg-white/5 rounded-lg border border-transparent hover:border-indigo-500 text-xs font-bold uppercase tracking-widest transition-all">Sistemas Distribuidos</a>
+            <a href="#about" class="block p-5 mt-6 border border-indigo-500/50 text-indigo-400 text-xs font-bold uppercase tracking-widest text-center hover:bg-indigo-500 hover:text-white rounded-lg transition-all">Sobre Ether Logic</a>
+        </div>
+    </div>
+
+    <header class="glass-header h-52 flex items-center">
+        <div class="max-w-7xl mx-auto px-8 w-full flex items-center justify-between relative z-50">
+            <button onclick="toggleLang()" class="w-14 h-14 flex items-center justify-center border border-white/10 rounded-full hover:bg-indigo-500/10 transition-all"><i class="fas fa-globe text-indigo-400 text-xl"></i></button>
+            <div class="flex items-center gap-8">
+                <img src="aveeuro.jpg" alt="Logo" class="brand-logo-img">
+                <div class="text-center">
+                    <span class="text-4xl font-black tracking-[0.3em] block">ETHER LOGIC</span>
+                    <span class="text-[10px] text-gray-500 font-bold tracking-[0.6em] uppercase mt-2 block">Spiritual Data Processing</span>
+                </div>
+            </div>
+            <button onclick="toggleMenu()" class="w-14 h-14 flex items-center justify-center border border-white/10 rounded-full hover:bg-indigo-500/10 transition-all"><i class="fas fa-bars text-indigo-400 text-xl"></i></button>
+        </div>
+    </header>
+
+    <main class="pt-72 pb-20 relative z-10">
+        <section class="py-20 text-center">
+            <h1 class="text-6xl md:text-8xl font-black tracking-tighter mb-8" data-i18n="h1">Sistemas de Alto Rendimiento</h1>
+            <p class="text-gray-400 text-xl max-w-2xl mx-auto mb-12" data-i18n="p">Ingeniería de software de precisión para infraestructuras críticas.</p>
+            <button class="bg-white text-black px-12 py-5 text-xs font-bold uppercase tracking-widest hover:bg-indigo-600 hover:text-white transition-all">Consultar Nodo</button>
+        </section>
+
+        <section class="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div class="service-card text-center">
+                <i class="fas fa-microchip text-4xl text-indigo-500 mb-8"></i>
+                <h3 class="text-sm font-bold uppercase mb-4 tracking-widest">Backend Ops</h3>
+                <p class="text-gray-400 text-sm" data-i18n="s1">Arquitecturas escalables con enfoque obsesivo en la seguridad.</p>
+            </div>
+            <div class="service-card text-center">
+                <i class="fas fa-eye text-4xl text-indigo-500 mb-8"></i>
+                <h3 class="text-sm font-bold uppercase mb-4 tracking-widest">Digital Zen</h3>
+                <p class="text-gray-400 text-sm" data-i18n="s2">Seguridad proactiva e infraestructuras resilientes.</p>
+            </div>
+            <div class="service-card text-center">
+                <i class="fas fa-terminal text-4xl text-indigo-500 mb-8"></i>
+                <h3 class="text-sm font-bold uppercase mb-4 tracking-widest">Core Logic</h3>
+                <p class="text-gray-400 text-sm" data-i18n="s3">Desarrollo de bajo nivel y optimización de recursos.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="py-16 text-center border-t border-white/5 relative z-10">
+        <img src="aveeuro.jpg" class="w-12 h-12 mx-auto mb-6 opacity-30 grayscale">
+        <div class="text-[9px] text-gray-600 tracking-[0.5em] uppercase">© <span id="year"></span> ETHER LOGIC GROUP</div>
+    </footer>
+
+    <script>
+        document.getElementById('year').innerText = new Date().getFullYear();
+
+        /* --- TRADUCCIONES --- */
+        const translations = {
+            es: { h1: "Sistemas de Alto Rendimiento", p: "Ingeniería de software de precisión para infraestructuras críticas.", s1: "Arquitecturas escalables con enfoque obsesivo en la seguridad.", s2: "Seguridad proactiva e infraestructuras resilientes.", s3: "Desarrollo de bajo nivel y optimización de recursos." },
+            en: { h1: "High Performance Systems", p: "Precision software engineering for critical infrastructures.", s1: "Scalable architectures with an obsessive focus on security.", s2: "Proactive security and resilient infrastructures.", s3: "Low-level development and resource optimization." },
+            it: { h1: "Sistemi ad Alte Prestazioni", p: "Ingegneria del software di precisione per infrastrutture critiche.", s1: "Architetture scalabili con focus sulla sicurezza.", s2: "Sicurezza proattiva e infrastrutture resilienti.", s3: "Sviluppo a basso livello e ottimizzazione." },
+            de: { h1: "Hochleistungssysteme", p: "Präzisions-Software-Engineering für kritische Infrastrukturen.", s1: "Skalierbare Architekturen mit Fokus auf Sicherheit.", s2: "Proaktive Sicherheit und resiliente Infrastrukturen.", s3: "Low-Level-Entwicklung und Optimierung." },
+            fr: { h1: "Systèmes Haute Performance", p: "Ingénierie logicielle de précision pour infrastructures critiques.", s1: "Architectures évolutives avec un accent sur la sécurité.", s2: "Sécurité proactive et infrastructures résilientes.", s3: "Développement bas niveau et optimisation." },
+            pt: { h1: "Sistemas de Alta Performance", p: "Engenharia de software de precisão para infraestruturas críticas.", s1: "Arquiteturas escaláveis com foco em segurança.", s2: "Segurança proativa e infraestruturas resilientes.", s3: "Desenvolvimento de bajo nível e otimização." }
+        };
+
+        function changeLang(lang) {
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) el.innerText = translations[lang][key];
+            });
+            document.querySelectorAll('#langOptions button').forEach(b => b.classList.remove('lang-active'));
+            document.getElementById(`lang-${lang}`).classList.add('lang-active');
+            closeAllMenus();
+        }
+
+        function toggleLang() { document.getElementById('langSidebar').classList.add('active'); document.getElementById('overlay').classList.add('active'); }
+        function toggleMenu() { document.getElementById('menuSidebar').classList.add('active'); document.getElementById('overlay').classList.add('active'); }
+        function closeAllMenus() { document.getElementById('langSidebar').classList.remove('active'); document.getElementById('menuSidebar').classList.remove('active'); document.getElementById('overlay').classList.remove('active'); }
+
+        /* --- MATRIX ESPIRITUAL (CARACTERES ENCRIPTADOS) --- */
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+        const logoImg = new Image();
+        logoImg.src = 'aveeuro.jpg';
+
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+        const fontSize = 18;
+        const logoSize = 70;
+        const columns = Math.floor(width / fontSize);
+        const drops = Array(columns).fill(1);
+
+        // Diccionario espiritual "encriptado"
+        const spiritualData = [
+            "PΔZ", "KΔRMΔ", "LUZ", "CΘNCIΞNCIΔ", "ΞTΞR", "VIBRΔCIΘN", "SΞR", "ΔLMΔ", "UNIVΞRSΘ", "ΞSPIRIτU", "ΩM", "ZΞN"
+        ];
+
+        function getEncyptedChar() {
+            // Mezcla de símbolos informáticos y griegos para ocultar el mensaje espiritual
+            const chars = "ΔΞΘτΩΣΠΦΨ01<>[]{}+-/*#&%$@";
+            return chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
+            ctx.fillRect(0, 0, width, height);
+
+            for (let i = 0; i < drops.length; i++) {
+                const x = i * fontSize;
+                const y = drops[i] * fontSize;
+
+                // Probabilidad de Logo Grande (2%)
+                if (Math.random() > 0.985) {
+                    ctx.globalAlpha = 0.5;
+                    ctx.drawImage(logoImg, x - 25, y, logoSize, logoSize);
+                    ctx.globalAlpha = 1.0;
+                } else {
+                    ctx.fillStyle = "#6366f1";
+                    ctx.font = fontSize + "px 'JetBrains Mono'";
+                    
+                    // A veces imprime una palabra espiritual encriptada, a veces un caracter suelto
+                    let content = (Math.random() > 0.96) ? spiritualData[Math.floor(Math.random() * spiritualData.length)] : getEncyptedChar();
+                    
+                    ctx.fillText(content, x, y);
+                }
+
+                if (y > height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 60);
+        window.onresize = () => { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; };
+        window.onload = () => changeLang('es');
+    </script>
+</body>
+</html>

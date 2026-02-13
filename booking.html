@@ -13,8 +13,8 @@
 
         body { 
             font-family: 'Inter', sans-serif; 
-            /* Capas: Degradado oscuro superior + Imagen de fondo */
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+            /* Capas: Degradado oscuro + Imagen de fondo */
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
                         url('book.jpg') no-repeat center center fixed; 
             background-size: cover;
             min-height: 100vh;
@@ -27,9 +27,9 @@
         
         /* Contenedor Efecto Cristal (Glassmorphism) */
         .glass-panel { 
-            background: rgba(10, 10, 10, 0.5); /* Muy transparente para ver la imagen */
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            background: rgba(15, 15, 15, 0.4); /* Transparencia para ver book.jpg */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 40px;
             overflow: hidden;
@@ -37,7 +37,7 @@
             max-width: 1050px;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.9);
         }
 
         @media (min-width: 768px) {
@@ -46,45 +46,46 @@
 
         .side-info {
             background: rgba(0, 0, 0, 0.3);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 3rem;
+            padding: 3.5rem;
         }
 
         @media (min-width: 768px) {
-            .side-info { width: 35%; border-bottom: none; border-right: 1px solid rgba(255, 255, 255, 0.05); }
+            .side-info { width: 35%; border-right: 1px solid rgba(255, 255, 255, 0.05); }
         }
 
         .form-section {
-            padding: 3rem;
+            padding: 3.5rem;
             flex: 1;
+            background: rgba(0, 0, 0, 0.2);
         }
 
-        /* Estilo de Inputs Transparentes */
+        /* Inputs Estilo Dark Glass */
         input, select, textarea { 
             background: rgba(255, 255, 255, 0.05) !important; 
             border: 1px solid rgba(255, 255, 255, 0.1) !important;
             color: #fff !important;
-            padding: 1rem !important;
-            border-radius: 12px !important;
+            padding: 1.1rem !important;
+            border-radius: 14px !important;
             width: 100%;
-            font-size: 0.875rem;
-            transition: all 0.3s ease;
+            font-size: 0.85rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         input:focus, select:focus, textarea:focus { 
             border-color: #6366f1 !important; 
             background: rgba(99, 102, 241, 0.1) !important;
-            outline: none; 
+            outline: none;
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
         }
 
         label {
             display: block;
             font-size: 10px;
-            font-weight: 700;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: #818cf8; /* Indigo claro */
-            margin-bottom: 0.75rem;
+            letter-spacing: 0.25em;
+            color: #818cf8;
+            margin-bottom: 0.8rem;
         }
 
         .btn-submit {
@@ -93,22 +94,24 @@
             font-weight: 900;
             text-transform: uppercase;
             letter-spacing: 0.3em;
-            padding: 1.25rem;
-            border-radius: 12px;
+            padding: 1.3rem;
+            border-radius: 14px;
             width: 100%;
             cursor: pointer;
             transition: all 0.4s ease;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
+            border: none;
         }
 
         .btn-submit:hover {
             background: #4f46e5;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(99, 102, 241, 0.5);
         }
 
         .logo-footer {
-            width: 40px; height: 40px; border-radius: 50%; object-fit: cover; opacity: 0.6;
+            width: 45px; height: 45px; border-radius: 10px; object-fit: cover; opacity: 0.5;
+            border: 1px solid rgba(255,255,255,0.1);
         }
     </style>
 </head>
@@ -118,52 +121,53 @@
         
         <div class="side-info flex flex-col justify-between">
             <div>
-                <div class="w-12 h-12 bg-indigo-500/20 border border-indigo-500/30 rounded-2xl flex items-center justify-center mb-10">
-                    <i class="fas fa-terminal text-indigo-400"></i>
+                <div class="w-14 h-14 bg-indigo-500/20 border border-indigo-500/30 rounded-2xl flex items-center justify-center mb-12">
+                    <i class="fas fa-terminal text-indigo-400 text-xl"></i>
                 </div>
-                <h2 class="text-4xl font-black leading-none mb-6 tracking-tighter uppercase">Reservar<br><span class="text-indigo-500">Nodo</span></h2>
+                <h2 class="text-4xl font-black leading-[0.9] mb-8 tracking-tighter uppercase">Agendar<br><span class="text-indigo-500">Sesión</span></h2>
                 <p class="text-gray-400 text-sm leading-relaxed mb-8">
-                    Sincronización técnica directa. Recibirás una copia de la confirmación en tu terminal de correo.
+                    Conexión directa con el nodo de ingeniería. Complete los parámetros para iniciar la sincronización técnica.
                 </p>
             </div>
             
             <div class="space-y-6">
                 <div class="flex items-center gap-4">
-                    <div class="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_10px_#22c55e]"></div>
-                    <span class="text-[10px] font-bold tracking-[0.2em] text-gray-300">SERVER STATUS: ONLINE</span>
+                    <div class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></div>
+                    <span class="text-[10px] font-bold tracking-[0.3em] text-indigo-300">SECURE CONNECTION</span>
                 </div>
                 <div class="text-[9px] text-gray-600 font-mono tracking-widest uppercase">
-                    Ether Logic // Core System 2026
+                    Ref: 0x-ETHER-LOGIC-2026
                 </div>
             </div>
         </div>
 
         <div class="form-section">
-            <form action="https://formsubmit.co/equilibriumetherlogicit@gmail.com" method="POST" class="space-y-6">
+            <form action="https://formsubmit.co/equilibriumlogicit@gmail.com" method="POST" class="space-y-7">
                 
-                <input type="hidden" name="_subject" value="RESERVA DE CONSULTA: Ether Logic">
+                <input type="hidden" name="_subject" value="NUEVA CONSULTA TÉCNICA: Ether Logic">
                 <input type="hidden" name="_captcha" value="false">
-                <input type="hidden" name="_autorespond" value="Gracias por contactar con Ether Logic. Hemos recibido tu solicitud de reserva. Un arquitecto core revisará tu caso a la brevedad.">
+                <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_autorespond" value="Tu solicitud ha sido recibida en el núcleo de Ether Logic. Un arquitecto core se pondrá en contacto pronto.">
                 <input type="hidden" name="_cc" value="email">
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
-                        <label>Nombre del Operador</label>
-                        <input type="text" name="name" required placeholder="Nombre completo">
+                        <label>Identidad (Nombre)</label>
+                        <input type="text" name="name" required placeholder="Operador">
                     </div>
                     <div>
-                        <label>Canal de Comunicación (Email)</label>
-                        <input type="email" name="email" required placeholder="tu@empresa.com">
+                        <label>Terminal (Email)</label>
+                        <input type="email" name="email" required placeholder="user@domain.com">
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
-                        <label>Fecha de Operación</label>
+                        <label>Fecha Estelar</label>
                         <input type="date" name="fecha" required>
                     </div>
                     <div>
-                        <label>Ventana Horaria (10:00 - 18:00)</label>
+                        <label>Ventana (10:00 - 18:00)</label>
                         <select name="hora" required>
                             <option value="10:00">10:00 AM</option>
                             <option value="10:30">10:30 AM</option>
@@ -187,8 +191,8 @@
                 </div>
 
                 <div>
-                    <label>Especificaciones Técnicas / Proyecto</label>
-                    <textarea name="message" rows="3" placeholder="Describe brevemente tu infraestructura o problema..."></textarea>
+                    <label>Específicaciones del Proyecto</label>
+                    <textarea name="message" rows="4" placeholder="Describa la arquitectura o problema técnico..."></textarea>
                 </div>
 
                 <button type="submit" class="btn-submit">
@@ -196,9 +200,9 @@
                 </button>
             </form>
 
-            <div class="mt-8 pt-6 border-t border-white/5 flex justify-between items-center">
-                <a href="index.html" class="text-[9px] text-gray-500 uppercase tracking-widest hover:text-indigo-400 transition-colors font-bold">
-                    <i class="fas fa-chevron-left mr-2"></i> Volver a la Matriz
+            <div class="mt-12 pt-8 border-t border-white/5 flex justify-between items-center">
+                <a href="index.html" class="text-[10px] text-gray-500 uppercase tracking-[0.3em] hover:text-indigo-400 transition-colors font-black">
+                    <i class="fas fa-arrow-left mr-3"></i> Abortar
                 </a>
                 <img src="aveeuro.jpg" alt="Logo" class="logo-footer">
             </div>

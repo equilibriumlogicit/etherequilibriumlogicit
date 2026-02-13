@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web & Apps Partner | Ether Logic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=JetBrains+Mono:wght@100;200&display=swap');
+        body { font-family: 'Inter', sans-serif; background: #000; color: #fff; margin: 0; overflow-x: hidden; }
+        #matrix-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.7; pointer-events: none; }
+        
+        @keyframes neonPulse {
+            0%, 100% { filter: grayscale(100%) brightness(0.1) drop-shadow(0 0 0px #6366f1); opacity: 0.3; transform: scale(0.97); }
+            45%, 55% { filter: grayscale(0%) brightness(1.2) drop-shadow(0 0 20px #6366f1); opacity: 1; transform: scale(1.03); }
+            50% { filter: grayscale(0%) brightness(2) drop-shadow(0 0 40px #6366f1); opacity: 0.9; }
+        }
+        .brand-logo-img { width: 140px; height: 140px; object-fit: cover; border-radius: 16px; border: 2px solid rgba(255,255,255,0.1); animation: neonPulse 6s ease-in-out infinite; }
+        .footer-logo-interactive { width: 60px; height: 60px; margin: 0 auto 1.5rem; object-fit: cover; border-radius: 8px; filter: grayscale(100%) brightness(0.3); opacity: 0.4; transition: all 0.6s; cursor: pointer; }
+        .footer-logo-interactive:hover { filter: grayscale(0%) brightness(1.2) drop-shadow(0 0 15px #6366f1); opacity: 1; transform: scale(1.1); }
+        .sidebar { position: fixed; top: 0; height: 100vh; width: 350px; background: #080808; transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); z-index: 2000; padding: 2.5rem; overflow-y: auto; }
+        #langSidebar { left: -350px; border-right: 1px solid rgba(99, 102, 241, 0.3); }
+        #menuSidebar { right: -350px; border-left: 1px solid rgba(99, 102, 241, 0.3); }
+        #langSidebar.active { transform: translateX(350px); }
+        #menuSidebar.active { transform: translateX(-350px); }
+        .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); opacity: 0; visibility: hidden; transition: 0.4s; z-index: 1500; }
+        .sidebar-overlay.active { opacity: 1; visibility: visible; }
+        .glass-header { background: rgba(0,0,0,0.85); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.05); position: fixed; width: 100%; top: 0; z-index: 100; }
+        .service-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.08); padding: 3rem; border-radius: 20px; transition: 0.4s; position: relative; z-index: 10; }
+        .lang-active { border-color: #6366f1 !important; background: rgba(99, 102, 241, 0.1) !important; color: #6366f1; }
+    </style>
+</head>
+<body>
+    <canvas id="matrix-canvas"></canvas>
+    <div id="overlay" class="sidebar-overlay" onclick="closeAllMenus()"></div>
+
+    <div id="langSidebar" class="sidebar">
+        <div class="flex justify-between items-center mb-10 text-indigo-500 font-bold uppercase tracking-widest text-[10px]"><span>Idiomas</span><button onclick="closeAllMenus()"><i class="fas fa-times text-lg"></i></button></div>
+        <div class="space-y-3" id="langOptions">
+            <button onclick="changeLang('es')" id="lang-es" class="w-full text-left p-4 border border-white/5 bg-white/5 rounded-lg flex justify-between items-center hover:border-indigo-500 transition-all"><span>Español</span><span class="text-xs opacity-40">ES</span></button>
+            <button onclick="changeLang('en')" id="lang-en" class="w-full text-left p-4 border border-white/5 bg-white/5 rounded-lg flex justify-between items-center hover:border-indigo-500 transition-all"><span>English</span><span class="text-xs opacity-40">EN</span></button>
+            <button onclick="changeLang('it')" id="lang-it" class="w-full text-left p-4 border border-white/5 bg-white/5 rounded-lg flex justify-between items-center hover:border-indigo-500 transition-all"><span>Italiano</span><span class="text-xs opacity-40">IT</span></button>
+            <button onclick="changeLang('de')" id="lang-de" class="w-full text-left p-4 border border-white/5 bg-white/5 rounded-lg flex justify-between items-center hover:border-indigo-500 transition-all"><span>Deutsch</span><span class="text-xs opacity-40">DE</span></button>
+            <button onclick="changeLang('fr')" id="lang-fr" class="w-full text-left p-4 border border-white/5 bg-white/5 rounded-lg flex justify-between items-center hover:border-indigo-500 transition-all"><span>Français</span><span class="text-xs opacity-40">FR</span></button>
+            <button onclick="changeLang('pt')" id="lang-pt" class="w-full text-left p-4 border border-white/5 bg-white/5 rounded-lg flex justify-between items-center hover:border-indigo-500 transition-all"><span>Português</span><span class="text-xs opacity-40">PT</span></button>
+        </div>
+    </div>
+
+    <div id="menuSidebar" class="sidebar">
+        <div class="flex justify-between items-center mb-10 text-indigo-500 font-bold uppercase tracking-widest text-[10px]"><span>Menú</span><button onclick="closeAllMenus()"><i class="fas fa-times text-lg"></i></button></div>
+        <div class="space-y-4">
+            <a href="index.html" class="block p-5 bg-white/5 rounded-lg border border-transparent hover:border-indigo-500 text-xs font-bold uppercase tracking-widest transition-all">Inicio</a>
+            <a href="web-apps.html" class="block p-5 bg-indigo-500/10 rounded-lg border border-indigo-500 text-xs font-bold uppercase tracking-widest">Web & Apps Partner</a>
+            <a href="ciberseguridad.html" class="block p-5 bg-white/5 rounded-lg border border-transparent hover:border-indigo-500 text-xs font-bold uppercase tracking-widest transition-all">Ciberseguridad</a>
+            <a href="about.html" class="block p-5 mt-6 border border-indigo-500/50 text-indigo-400 text-xs font-bold uppercase tracking-widest text-center hover:bg-indigo-500 hover:text-white rounded-lg transition-all">Sobre Ether Logic</a>
+        </div>
+    </div>
+
+    <header class="glass-header h-52 flex items-center">
+        <div class="max-w-7xl mx-auto px-8 w-full flex items-center justify-between relative z-50">
+            <button onclick="toggleLang()" class="w-14 h-14 border border-white/10 rounded-full hover:bg-indigo-500/10 transition-all"><i class="fas fa-globe text-indigo-400 text-xl"></i></button>
+            <div class="flex items-center gap-8">
+                <img src="aveeuro.jpg" alt="Logo" class="brand-logo-img">
+                <div class="text-center">
+                    <span class="text-4xl font-black tracking-[0.3em] block">ETHER LOGIC</span>
+                    <span class="text-[10px] text-gray-500 font-bold tracking-[0.6em] mt-2 block uppercase">Web & App Partner</span>
+                </div>
+            </div>
+            <button onclick="toggleMenu()" class="w-14 h-14 border border-white/10 rounded-full hover:bg-indigo-500/10 transition-all"><i class="fas fa-bars text-indigo-400 text-xl"></i></button>
+        </div>
+    </header>
+
+    <main class="pt-72 pb-20 relative z-10">
+        <section class="max-w-7xl mx-auto px-8">
+            <div class="mb-16 border-l-4 border-indigo-500 pl-6">
+                <h1 class="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-4" data-i18n="h1_web">Desarrollo de Élite</h1>
+                <p class="text-indigo-400 font-mono text-lg tracking-widest uppercase" data-i18n="p_web">Estrategia Full-Stack para proyectos ambiciosos</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div class="service-card">
+                    <i class="fas fa-code text-indigo-500 text-3xl mb-6"></i>
+                    <h2 class="text-2xl font-bold mb-4">Arquitectura Moderna</h2>
+                    <p class="text-gray-400 leading-relaxed">Implementamos las últimas tecnologías (React, Next.js, Node) para garantizar que tu producto sea rápido, escalable y preparado para el futuro.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-handshake text-indigo-500 text-3xl mb-6"></i>
+                    <h2 class="text-2xl font-bold mb-4">Socio Tecnológico</h2>
+                    <p class="text-gray-400 leading-relaxed">No somos solo proveedores. Nos integramos en tu flujo de trabajo para optimizar cada línea de código y decisión técnica.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="py-16 text-center border-t border-white/5 relative z-10">
+        <img src="aveeuro.jpg" alt="Footer Logo" class="footer-logo-interactive">
+        <div class="text-[9px] text-gray-600 tracking-[0.5em] uppercase">© <span id="year"></span> ETHER LOGIC | WEB & APP PARTNER</div>
+    </footer>
+
+    <script>
+        document.getElementById('year').innerText = new Date().getFullYear();
+        function toggleLang() { document.getElementById('langSidebar').classList.add('active'); document.getElementById('overlay').classList.add('active'); }
+        function toggleMenu() { document.getElementById('menuSidebar').classList.add('active'); document.getElementById('overlay').classList.add('active'); }
+        function closeAllMenus() { document.getElementById('langSidebar').classList.remove('active'); document.getElementById('menuSidebar').classList.remove('active'); document.getElementById('overlay').classList.remove('active'); }
+        
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+        const fontSize = 18;
+        const columns = Math.floor(width / fontSize);
+        const drops = Array(columns).fill(1);
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
+            ctx.fillRect(0, 0, width, height);
+            ctx.fillStyle = "#6366f1";
+            ctx.font = fontSize + "px 'JetBrains Mono'";
+            for (let i = 0; i < drops.length; i++) {
+                const text = "01ΔΞΘτΩ"[Math.floor(Math.random()*7)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 60);
+    </script>
+</body>
+</html>

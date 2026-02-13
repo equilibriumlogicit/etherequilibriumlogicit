@@ -14,7 +14,7 @@
         /* --- FONDO MATRIX --- */
         #matrix-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.7; pointer-events: none; }
 
-        /* --- EFECTO NEON LOGO (CABECERA) --- */
+        /* --- EFECTO NEON LOGO --- */
         @keyframes neonPulse {
             0%, 100% { filter: grayscale(100%) brightness(0.1) drop-shadow(0 0 0px #6366f1); opacity: 0.3; transform: scale(0.97); }
             45%, 55% { filter: grayscale(0%) brightness(1.2) drop-shadow(0 0 20px #6366f1); opacity: 1; transform: scale(1.03); }
@@ -27,22 +27,13 @@
             animation: neonPulse 6s ease-in-out infinite; 
         }
 
-        /* --- LOGO FOOTER INTERACTIVO (BN A COLOR) --- */
         .footer-logo-interactive {
-            width: 60px; height: 60px;
-            margin: 0 auto 1.5rem;
-            object-fit: cover;
-            border-radius: 8px;
-            filter: grayscale(100%) brightness(0.3);
-            opacity: 0.4;
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
+            width: 60px; height: 60px; margin: 0 auto 1.5rem; object-fit: cover; border-radius: 8px;
+            filter: grayscale(100%) brightness(0.3); opacity: 0.4; transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer;
         }
 
         .footer-logo-interactive:hover {
-            filter: grayscale(0%) brightness(1.2) drop-shadow(0 0 15px #6366f1);
-            opacity: 1;
-            transform: scale(1.1);
+            filter: grayscale(0%) brightness(1.2) drop-shadow(0 0 15px #6366f1); opacity: 1; transform: scale(1.1);
         }
 
         /* --- SIDEBARS --- */
@@ -55,9 +46,8 @@
         .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); opacity: 0; visibility: hidden; transition: 0.4s; z-index: 1500; }
         .sidebar-overlay.active { opacity: 1; visibility: visible; }
 
-        /* --- HEADER & CARDS --- */
         .glass-header { background: rgba(0,0,0,0.85); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.05); position: fixed; width: 100%; top: 0; z-index: 100; }
-        .service-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.08); padding: 3rem; border-radius: 20px; transition: 0.4s; position: relative; z-index: 10; }
+        .service-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.08); padding: 3rem; border-radius: 20px; transition: 0.4s; position: relative; z-index: 10; display: block; }
         .service-card:hover { border-color: #6366f1; transform: translateY(-10px); background: rgba(99, 102, 241, 0.05); }
         .lang-active { border-color: #6366f1 !important; background: rgba(99, 102, 241, 0.1) !important; color: #6366f1; }
     </style>
@@ -88,11 +78,11 @@
             <button onclick="closeAllMenus()"><i class="fas fa-times text-lg"></i></button>
         </div>
         <div class="space-y-4">
-            <a href="#" class="block p-5 bg-white/5 rounded-lg border border-transparent hover:border-indigo-500 text-xs font-bold uppercase tracking-widest transition-all">Web & Apps Partner</a>
-            <a href="#" class="block p-5 bg-white/5 rounded-lg border border-transparent hover:border-indigo-500 text-xs font-bold uppercase tracking-widest transition-all">Arquitectura Core</a>
-            <a href="#" class="block p-5 bg-white/5 rounded-lg border border-transparent hover:border-indigo-500 text-xs font-bold uppercase tracking-widest transition-all">Ciberseguridad</a>
-            <a href="#" class="block p-5 bg-white/5 rounded-lg border border-transparent hover:border-indigo-500 text-xs font-bold uppercase tracking-widest transition-all">Sistemas Distribuidos</a>
-            <a href="#about" class="block p-5 mt-6 border border-indigo-500/50 text-indigo-400 text-xs font-bold uppercase tracking-widest text-center hover:bg-indigo-500 hover:text-white rounded-lg transition-all">Sobre Ether Logic</a>
+            <a href="web-apps.html" class="block p-5 bg-white/5 rounded-lg border border-transparent hover:border-indigo-500 text-xs font-bold uppercase tracking-widest transition-all">Web & Apps Partner</a>
+            <a href="arquitectura.html" class="block p-5 bg-white/5 rounded-lg border border-transparent hover:border-indigo-500 text-xs font-bold uppercase tracking-widest transition-all">Arquitectura Core</a>
+            <a href="ciberseguridad.html" class="block p-5 bg-white/5 rounded-lg border border-transparent hover:border-indigo-500 text-xs font-bold uppercase tracking-widest transition-all">Ciberseguridad</a>
+            <a href="sistemas.html" class="block p-5 bg-white/5 rounded-lg border border-transparent hover:border-indigo-500 text-xs font-bold uppercase tracking-widest transition-all">Sistemas Distribuidos</a>
+            <a href="about.html" class="block p-5 mt-6 border border-indigo-500/50 text-indigo-400 text-xs font-bold uppercase tracking-widest text-center hover:bg-indigo-500 hover:text-white rounded-lg transition-all">Sobre Ether Logic</a>
         </div>
     </div>
 
@@ -113,31 +103,29 @@
     <main class="pt-72 pb-20 relative z-10">
         <section class="py-20 text-center px-6">
             <h1 class="text-6xl md:text-8xl font-black tracking-tighter mb-4" data-i18n="h1">Sistemas de Alto Rendimiento</h1>
-            
             <div class="mb-10">
                 <span class="text-indigo-500 font-mono text-sm tracking-[0.3em] uppercase block mb-2" data-i18n="partner_head">Development Partner</span>
-                <p class="text-gray-400 text-xl max-w-3xl mx-auto" data-i18n="p">Ingeniería de software de precisión para infraestructuras críticas, portales web de alto tráfico y aplicaciones escalables.</p>
+                <p class="text-gray-400 text-xl max-w-3xl mx-auto" data-i18n="p">Ingeniería de software de precisión para infraestructuras críticas y aplicaciones escalables.</p>
             </div>
-
-            <button class="bg-white text-black px-12 py-5 text-xs font-bold uppercase tracking-widest hover:bg-indigo-600 hover:text-white transition-all">Consultar Nodo</button>
+            <a href="about.html" class="inline-block bg-white text-black px-12 py-5 text-xs font-bold uppercase tracking-widest hover:bg-indigo-600 hover:text-white transition-all">Consultar Nodo</a>
         </section>
 
         <section class="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-3 gap-10">
-            <div class="service-card text-center">
+            <a href="web-apps.html" class="service-card text-center">
                 <i class="fas fa-laptop-code text-4xl text-indigo-500 mb-8"></i>
                 <h3 class="text-sm font-bold uppercase mb-4 tracking-widest" data-i18n="t1">Web & App Partner</h3>
-                <p class="text-gray-400 text-sm" data-i18n="s1">Desarrollo a medida con tecnologías de última generación y despliegue continuo.</p>
-            </div>
-            <div class="service-card text-center">
+                <p class="text-gray-400 text-sm" data-i18n="s1">Desarrollo a medida con tecnologías de última generación.</p>
+            </a>
+            <a href="ciberseguridad.html" class="service-card text-center">
                 <i class="fas fa-eye text-4xl text-indigo-500 mb-8"></i>
                 <h3 class="text-sm font-bold uppercase mb-4 tracking-widest">Digital Zen</h3>
                 <p class="text-gray-400 text-sm" data-i18n="s2">Seguridad proactiva e infraestructuras resilientes.</p>
-            </div>
-            <div class="service-card text-center">
+            </a>
+            <a href="arquitectura.html" class="service-card text-center">
                 <i class="fas fa-microchip text-4xl text-indigo-500 mb-8"></i>
                 <h3 class="text-sm font-bold uppercase mb-4 tracking-widest">Core Logic</h3>
-                <p class="text-gray-400 text-sm" data-i18n="s3">Desarrollo de bajo nivel y optimización de recursos.</p>
-            </div>
+                <p class="text-gray-400 text-sm" data-i18n="s3">Desarrollo de bajo nivel y optimización.</p>
+            </a>
         </section>
     </main>
 
@@ -151,14 +139,13 @@
     <script>
         document.getElementById('year').innerText = new Date().getFullYear();
 
-        /* --- TRADUCCIONES COMPLETAS (6 IDIOMAS) --- */
         const translations = {
-            es: { h1: "Sistemas de Alto Rendimiento", partner_head: "Development Partner", tagline: "Spiritual Data Processing", p: "Ingeniería de software de precisión para infraestructuras críticas, portales web de alto tráfico y aplicaciones escalables.", t1: "Web & App Partner", s1: "Desarrollo a medida con tecnologías de última generación y despliegue continuo.", s2: "Seguridad proactiva e infraestructuras resilientes.", s3: "Desarrollo de bajo nivel y optimización de recursos." },
-            en: { h1: "High Performance Systems", partner_head: "Development Partner", tagline: "Spiritual Data Processing", p: "Precision software engineering for critical infrastructure, high-traffic web portals, and scalable applications.", t1: "Web & App Partner", s1: "Custom development with next-gen technologies and continuous deployment.", s2: "Proactive security and resilient infrastructures.", s3: "Low-level development and resource optimization." },
-            it: { h1: "Sistemi ad Alte Prestazioni", partner_head: "Partner di Sviluppo", tagline: "Spiritual Data Processing", p: "Ingegneria del software di precisione per infrastrutture critiche, portali web e applicazioni scalabili.", t1: "Web & App Partner", s1: "Sviluppo su misura con tecnologie di ultima generazione.", s2: "Sicurezza proattiva e infrastrutture resilienti.", s3: "Sviluppo a basso livello e ottimizzazione." },
-            de: { h1: "Hochleistungssysteme", partner_head: "Entwicklungspartner", tagline: "Spiritual Data Processing", p: "Präzisionssoftware für kritische Infrastrukturen, hochfrequentierte Webportale und skalierbare Anwendungen.", t1: "Web & App Partner", s1: "Maßgeschneiderte Entwicklung mit modernsten Technologien.", s2: "Proaktive Sicherheit und resiliente Infrastrukturen.", s3: "Low-Level-Entwicklung und Optimierung." },
-            fr: { h1: "Systèmes Haute Performance", partner_head: "Partenaire de Développement", tagline: "Spiritual Data Processing", p: "Ingénierie logicielle de précision pour les infrastructures critiques, les portails web et les applications.", t1: "Web & App Partner", s1: "Développement sur mesure avec des technologies de nouvelle génération.", s2: "Sécurité proactive et infrastructures résilientes.", s3: "Développement bas niveau et optimisation." },
-            pt: { h1: "Sistemas de Alta Performance", partner_head: "Parceiro de Desenvolvimento", tagline: "Spiritual Data Processing", p: "Engenharia de software de precisão para infraestruturas críticas e aplicações escaláveis.", t1: "Web & App Partner", s1: "Desenvolvimento sob medida com tecnologias de ponta.", s2: "Segurança proativa e infraestruturas resilientes.", s3: "Desenvolvimento de baixo nível e otimização." }
+            es: { h1: "Sistemas de Alto Rendimiento", partner_head: "Development Partner", tagline: "Spiritual Data Processing", p: "Ingeniería de software de precisión.", t1: "Web & App Partner", s1: "Desarrollo a medida.", s2: "Seguridad proactiva.", s3: "Optimización core." },
+            en: { h1: "High Performance Systems", partner_head: "Development Partner", tagline: "Spiritual Data Processing", p: "Precision software engineering.", t1: "Web & App Partner", s1: "Custom development.", s2: "Proactive security.", s3: "Core optimization." },
+            it: { h1: "Sistemi ad Alte Prestazioni", partner_head: "Partner di Sviluppo", tagline: "Spiritual Data Processing", p: "Ingegneria del software.", t1: "Web & App Partner", s1: "Sviluppo su misura.", s2: "Sicurezza proattiva.", s3: "Ottimizzazione core." },
+            de: { h1: "Hochleistungssysteme", partner_head: "Entwicklungspartner", tagline: "Spiritual Data Processing", p: "Präzisionssoftware.", t1: "Web & App Partner", s1: "Maßgeschneiderte Entwicklung.", s2: "Proaktive Sicherheit.", s3: "Core-Optimierung." },
+            fr: { h1: "Systèmes Haute Performance", partner_head: "Partenaire", tagline: "Spiritual Data Processing", p: "Ingénierie de précision.", t1: "Web & App Partner", s1: "Développement sur mesure.", s2: "Sécurité proactive.", s3: "Optimisation core." },
+            pt: { h1: "Sistemas de Alta Performance", partner_head: "Parceiro", tagline: "Spiritual Data Processing", p: "Engenharia de precisão.", t1: "Web & App Partner", s1: "Desenvolvimento sob medida.", s2: "Segurança proativa.", s3: "Otimização core." }
         };
 
         function changeLang(lang) {
@@ -176,40 +163,22 @@
         function toggleMenu() { document.getElementById('menuSidebar').classList.add('active'); document.getElementById('overlay').classList.add('active'); }
         function closeAllMenus() { document.getElementById('langSidebar').classList.remove('active'); document.getElementById('menuSidebar').classList.remove('active'); document.getElementById('overlay').classList.remove('active'); }
 
-        /* --- MATRIX --- */
         const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
-        const logoImg = new Image(); logoImg.src = 'aveeuro.jpg';
-        let width = canvas.width = window.innerWidth;
-        let height = canvas.height = window.innerHeight;
-        const fontSize = 18;
-        const columns = Math.floor(width / fontSize);
-        const drops = Array(columns).fill(1);
-        const spiritualData = ["PΔZ", "KΔRMΔ", "LUZ", "CΘNCIΞNCIΔ", "ΞTΞR", "VIBRΔCIΘN", "SΞR", "ΔLMΔ", "UNIVΞRSΘ", "ΩM"];
-
-        function getEncyptedChar() {
-            const chars = "ΔΞΘτΩΣΠΦΨ01<>[]{}+-/*#&%$@";
-            return chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-
+        let width = canvas.width = window.innerWidth, height = canvas.height = window.innerHeight;
+        const fontSize = 18, columns = Math.floor(width / fontSize), drops = Array(columns).fill(1);
         function drawMatrix() {
-            ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
-            ctx.fillRect(0, 0, width, height);
+            ctx.fillStyle = "rgba(0, 0, 0, 0.15)"; ctx.fillRect(0, 0, width, height);
+            ctx.fillStyle = "#6366f1"; ctx.font = fontSize + "px 'JetBrains Mono'";
             for (let i = 0; i < drops.length; i++) {
-                const x = i * fontSize;
-                const y = drops[i] * fontSize;
-                ctx.fillStyle = "#6366f1";
-                ctx.font = fontSize + "px 'JetBrains Mono'";
-                let content = (Math.random() > 0.96) ? spiritualData[Math.floor(Math.random() * spiritualData.length)] : getEncyptedChar();
-                ctx.fillText(content, x, y);
-                if (y > height && Math.random() > 0.975) drops[i] = 0;
+                const text = "ΔΞΘτΩΣΠΦΨ01"[Math.floor(Math.random()*11)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > height && Math.random() > 0.975) drops[i] = 0;
                 drops[i]++;
             }
         }
-
         setInterval(drawMatrix, 60);
         window.onresize = () => { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; };
-        window.onload = () => changeLang('es');
     </script>
 </body>
 </html>

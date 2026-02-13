@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Ether Logic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reutilizar estilos generales */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; background: #000; color: #fff; margin: 0; overflow-x: hidden; }
+        #matrix-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.5; }
+        .brand-logo-img { width: 140px; height: 140px; border-radius: 16px; border: 2px solid rgba(255,255,255,0.1); animation: neonPulse 6s infinite; }
+        .footer-logo-interactive { width: 60px; height: 60px; margin: 0 auto 1.5rem; filter: grayscale(100%) brightness(0.3); opacity: 0.4; transition: 0.6s; cursor: pointer; }
+        .footer-logo-interactive:hover { filter: grayscale(0%) brightness(1.2) drop-shadow(0 0 15px #6366f1); opacity: 1; }
+        .glass-header { background: rgba(0,0,0,0.85); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.05); position: fixed; width: 100%; top: 0; z-index: 100; }
+        @keyframes neonPulse { 0%, 100% { filter: grayscale(100%) brightness(0.1); opacity: 0.3; } 50% { filter: grayscale(0%) brightness(1.5); opacity: 1; } }
+    </style>
+</head>
+<body>
+    <canvas id="matrix-canvas"></canvas>
+    <header class="glass-header h-52 flex items-center">
+        <div class="max-w-7xl mx-auto px-8 w-full flex justify-between items-center relative z-50">
+            <a href="index.html" class="text-indigo-400 uppercase font-bold tracking-widest text-xs"><i class="fas fa-arrow-left mr-2"></i> Volver</a>
+            <img src="aveeuro.jpg" class="brand-logo-img">
+            <div class="w-20"></div>
+        </div>
+    </header>
+
+    <main class="pt-72 pb-20 relative z-10">
+        <section class="max-w-4xl mx-auto px-8 text-center">
+            <h1 class="text-7xl font-black mb-12 tracking-tighter">EL ETER DIGITAL</h1>
+            <div class="space-y-8 text-2xl text-gray-400 font-light leading-relaxed">
+                <p>En **Ether Logic**, creemos que el software no es solo código; es una extensión de la intención humana. Como socios de desarrollo, purificamos sistemas para que fluyan sin fricción.</p>
+                <p>Nuestra matriz espiritual procesa datos con el fin de crear un ecosistema digital más consciente, seguro y extraordinariamente eficiente.</p>
+            </div>
+            <div class="mt-20">
+                <a href="mailto:nexo@etherlogic.com" class="border border-indigo-500 text-indigo-500 px-12 py-5 text-sm font-bold uppercase tracking-[0.3em] hover:bg-indigo-500 hover:text-white transition-all">Establecer Nexo</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="py-16 text-center relative z-10">
+        <img src="aveeuro.jpg" class="footer-logo-interactive">
+        <p class="text-[9px] text-gray-700 tracking-[0.5em]">ETHER LOGIC | SPIRITUAL MATRIX SYSTEMS</p>
+    </footer>
+</body>
+</html>

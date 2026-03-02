@@ -54,6 +54,10 @@
 </head>
 <body>
 
+    <audio id="bg-music" loop preload="auto">
+        <source src="Rob Dougan - Clubbed To Death.mp3" type="audio/mpeg">
+    </audio>
+
     <canvas id="matrix-canvas"></canvas>
     <div id="overlay" class="sidebar-overlay" onclick="closeAllMenus()"></div>
 
@@ -139,13 +143,38 @@
     <script>
         document.getElementById('year').innerText = new Date().getFullYear();
 
+        // --- LÓGICA DE AUDIO (Sincronización Ether Logic) ---
+        const audio = document.getElementById('bg-music');
+        let audioIniciado = false;
+
+        // Función para intentar iniciar el audio sin bloquear el navegador
+        const playMusic = () => {
+            if (!audioIniciado) {
+                audio.play()
+                    .then(() => { audioIniciado = true; })
+                    .catch(e => console.log("Navegador esperando acción..."));
+            }
+        };
+
+        // Escuchar CUALQUIER interacción inicial para arrancar la música
+        window.addEventListener('mouseover', playMusic, { once: true });
+        window.addEventListener('click', playMusic, { once: true });
+        window.addEventListener('keydown', playMusic, { once: true });
+        window.addEventListener('scroll', playMusic, { once: true });
+
+        // Detener al salir del navegador
+        document.addEventListener('mouseleave', () => { if(audioIniciado) audio.pause(); });
+        // Reanudar al volver
+        document.addEventListener('mouseenter', () => { if(audioIniciado) audio.play(); });
+
+        // --- TRADUCCIONES Y MENÚS (INTEGRIDAD TOTAL) ---
         const translations = {
             es: { h1: "Sistemas de Alto Rendimiento", partner_head: "Development Partner", tagline: "Spiritual Data Processing", p: "Ingeniería de software de precisión.", t1: "Web & App Partner", s1: "Desarrollo a medida.", s2: "Seguridad proactiva.", s3: "Optimización core." },
             en: { h1: "High Performance Systems", partner_head: "Development Partner", tagline: "Spiritual Data Processing", p: "Precision software engineering.", t1: "Web & App Partner", s1: "Custom development.", s2: "Proactive security.", s3: "Core optimization." },
             it: { h1: "Sistemi ad Alte Prestazioni", partner_head: "Partner di Sviluppo", tagline: "Spiritual Data Processing", p: "Ingegneria del software.", t1: "Web & App Partner", s1: "Sviluppo su misura.", s2: "Sicurezza proattiva.", s3: "Ottimizzazione core." },
             de: { h1: "Hochleistungssysteme", partner_head: "Entwicklungspartner", tagline: "Spiritual Data Processing", p: "Präzisionssoftware.", t1: "Web & App Partner", s1: "Maßgeschneiderte Entwicklung.", s2: "Proaktive Sicherheit.", s3: "Core-Optimierung." },
             fr: { h1: "Systèmes Haute Performance", partner_head: "Partenaire", tagline: "Spiritual Data Processing", p: "Ingénierie de précision.", t1: "Web & App Partner", s1: "Développement sur mesure.", s2: "Sécurité proactive.", s3: "Optimisation core." },
-            pt: { h1: "Sistemas de Alta Performance", partner_head: "Parceiro", tagline: "Spiritual Data Processing", p: "Engenharia de precisão.", t1: "Web & App Partner", s1: "Desenvolvimento sob medida.", s2: "Segurança proativa.", s3: "Otimização core." }
+            pt: { h1: "Sistemas de Alta Performance", partner_head: "Parceiro", tagline: "Spiritual Data Processing", p: "Engenharia de precisión.", t1: "Web & App Partner", s1: "Desenvolvimento sob medida.", s2: "Segurança proativa.", s3: "Otimización core." }
         };
 
         function changeLang(lang) {
@@ -163,6 +192,7 @@
         function toggleMenu() { document.getElementById('menuSidebar').classList.add('active'); document.getElementById('overlay').classList.add('active'); }
         function closeAllMenus() { document.getElementById('langSidebar').classList.remove('active'); document.getElementById('menuSidebar').classList.remove('active'); document.getElementById('overlay').classList.remove('active'); }
 
+        // --- MATRIX CANVAS ---
         const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
         let width = canvas.width = window.innerWidth, height = canvas.height = window.innerHeight;

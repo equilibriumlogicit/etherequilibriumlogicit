@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Titan Forge | Elite Performance</title>
+    <style>
+        :root { --titan-red: #ff003c; --bg-black: #050505; --card-bg: #0f0f0f; }
+        body { background: var(--bg-black); color: #fff; font-family: 'Oswald', sans-serif; margin: 0; text-transform: uppercase; }
+        
+        /* Hero con Parallax Effect */
+        .hero { 
+            height: 100vh; 
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=1400');
+            background-size: cover; background-position: center; background-attachment: fixed;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+        }
+        h1 { font-size: 8rem; margin: 0; line-height: 0.8; letter-spacing: -5px; }
+        h1 span { color: var(--titan-red); }
+
+        /* Tarjetas de Clases Interactivas */
+        .classes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); padding: 50px 5%; gap: 15px; }
+        .class-box { 
+            height: 400px; position: relative; overflow: hidden; border-radius: 10px; cursor: pointer;
+        }
+        .class-box img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: 0.6s; }
+        .class-box:hover img { filter: grayscale(0%); transform: scale(1.1); }
+        .class-overlay { 
+            position: absolute; bottom: 0; left: 0; width: 100%; padding: 30px; 
+            background: linear-gradient(transparent, var(--titan-red)); opacity: 0.8; 
+        }
+
+        /* Planes de Membresía */
+        .pricing { padding: 100px 5%; display: flex; gap: 30px; justify-content: center; flex-wrap: wrap; }
+        .plan { 
+            background: var(--card-bg); padding: 50px; border-radius: 20px; width: 300px; 
+            border: 1px solid #222; transition: 0.3s; position: relative;
+        }
+        .plan:hover { border-color: var(--titan-red); transform: translateY(-15px); }
+        .plan.featured { border: 2px solid var(--titan-red); box-shadow: 0 0 30px rgba(255, 0, 60, 0.2); }
+        .price { font-size: 4rem; font-weight: 900; margin: 20px 0; }
+        .price span { font-size: 1rem; color: #666; }
+
+        .btn-join { 
+            width: 100%; padding: 15px; background: var(--titan-red); color: #fff; 
+            border: none; font-weight: bold; font-size: 1.2rem; cursor: pointer; clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <p style="letter-spacing: 10px;">FORJANDO LEYENDAS</p>
+        <h1>TITAN<span>FORGE</span></h1>
+        <p style="font-size: 1.5rem; margin-top: 20px;">ENTRENAMIENTO SIN LÍMITES</p>
+    </section>
+
+    <div class="classes-grid">
+        <div class="class-box">
+            <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=80&w=600" alt="Crossfit">
+            <div class="class-overlay"><h3>CROSS-GENESIS</h3><p>PODER TOTAL</p></div>
+        </div>
+        <div class="class-box">
+            <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&q=80&w=600" alt="Box">
+            <div class="class-overlay"><h3>COMBAT LAB</h3><p>ARTES MARCIALES</p></div>
+        </div>
+        <div class="class-box">
+            <img src="https://images.unsplash.com/photo-1549476464-37392f71752a?auto=format&fit=crop&q=80&w=600" alt="Powerlifting">
+            <div class="class-overlay"><h3>IRON SQUAD</h3><p>FUERZA BRUTA</p></div>
+        </div>
+    </div>
+
+    <section class="pricing">
+        <div class="plan"><h3>WARRIOR</h3><div class="price">39<span>/mes</span></div><p>Acceso 24/7</p><p>Zona de Pesas</p><button class="btn-join">ENTRAR</button></div>
+        <div class="plan featured"><h3>TITAN</h3><div class="price">79<span>/mes</span></div><p>Coach Personal</p><p>Plan Nutricional</p><button class="btn-join">DOMINAR</button></div>
+    </section>
+</body>
+</html>

@@ -27,15 +27,6 @@
             animation: neonPulse 6s ease-in-out infinite; 
         }
 
-        .footer-logo-interactive {
-            width: 60px; height: 60px; margin: 0 auto 1.5rem; object-fit: cover; border-radius: 8px;
-            filter: grayscale(100%) brightness(0.3); opacity: 0.4; transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer;
-        }
-
-        .footer-logo-interactive:hover {
-            filter: grayscale(0%) brightness(1.2) drop-shadow(0 0 15px #6366f1); opacity: 1; transform: scale(1.1);
-        }
-
         /* --- SIDEBARS --- */
         .sidebar { position: fixed; top: 0; height: 100vh; width: 350px; background: #080808; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); z-index: 2000; padding: 2.5rem; overflow-y: auto; }
         #langSidebar { left: -350px; border-right: 1px solid rgba(99, 102, 241, 0.3); }
@@ -47,16 +38,33 @@
         .sidebar-overlay.active { opacity: 1; visibility: visible; }
 
         .glass-header { background: rgba(0,0,0,0.85); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.05); position: fixed; width: 100%; top: 0; z-index: 100; }
+        
+        /* --- BOTÓN SHOWCASE ESPECIAL --- */
+        .btn-showcase {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(99, 102, 241, 0.4) !important;
+            background: rgba(99, 102, 241, 0.1) !important;
+        }
+        .btn-showcase::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(99, 102, 241, 0.2), transparent);
+            transform: rotate(45deg);
+            animation: shine 4s infinite;
+        }
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
         .service-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.08); padding: 3rem; border-radius: 20px; transition: 0.4s; position: relative; z-index: 10; display: block; }
         .service-card:hover { border-color: #6366f1; transform: translateY(-10px); background: rgba(99, 102, 241, 0.05); }
         .lang-active { border-color: #6366f1 !important; background: rgba(99, 102, 241, 0.1) !important; color: #6366f1; }
     </style>
 </head>
 <body>
-
-    <audio id="bg-music" loop preload="auto">
-        <source src="Rob Dougan - Clubbed To Death.mp3" type="audio/mpeg">
-    </audio>
 
     <canvas id="matrix-canvas"></canvas>
     <div id="overlay" class="sidebar-overlay" onclick="closeAllMenus()"></div>
@@ -78,14 +86,21 @@
 
     <div id="menuSidebar" class="sidebar">
         <div class="flex justify-between items-center mb-10 text-indigo-500 font-bold uppercase tracking-widest text-[10px]">
-            <span>Áreas Técnicas</span>
+            <span>Navegación</span>
             <button onclick="closeAllMenus()"><i class="fas fa-times text-lg"></i></button>
         </div>
         <div class="space-y-4">
+            <a href="ee-portfolio-hub.html" class="btn-showcase block p-5 rounded-lg text-indigo-400 text-xs font-bold uppercase tracking-widest hover:text-white transition-all">
+                <i class="fas fa-project-diagram mr-3"></i> <span data-i18n="menu_showcase">Showcase</span>
+            </a>
+
+            <div class="pt-4 pb-2 text-[9px] text-gray-600 font-bold uppercase tracking-widest">Áreas Técnicas</div>
+            
             <a href="web-apps.html" class="block p-5 bg-white/5 rounded-lg border border-transparent hover:border-indigo-500 text-xs font-bold uppercase tracking-widest transition-all">Web & Apps Partner</a>
             <a href="arquitectura.html" class="block p-5 bg-white/5 rounded-lg border border-transparent hover:border-indigo-500 text-xs font-bold uppercase tracking-widest transition-all">Arquitectura Core</a>
             <a href="ciberseguridad.html" class="block p-5 bg-white/5 rounded-lg border border-transparent hover:border-indigo-500 text-xs font-bold uppercase tracking-widest transition-all">Ciberseguridad</a>
             <a href="sistemas.html" class="block p-5 bg-white/5 rounded-lg border border-transparent hover:border-indigo-500 text-xs font-bold uppercase tracking-widest transition-all">Sistemas Distribuidos</a>
+            
             <a href="about.html" class="block p-5 mt-6 border border-indigo-500/50 text-indigo-400 text-xs font-bold uppercase tracking-widest text-center hover:bg-indigo-500 hover:text-white rounded-lg transition-all">Sobre Ether Logic</a>
         </div>
     </div>
@@ -93,13 +108,21 @@
     <header class="glass-header h-52 flex items-center">
         <div class="max-w-7xl mx-auto px-8 w-full flex items-center justify-between relative z-50">
             <button onclick="toggleLang()" class="w-14 h-14 flex items-center justify-center border border-white/10 rounded-full hover:bg-indigo-500/10 transition-all"><i class="fas fa-globe text-indigo-400 text-xl"></i></button>
+            
             <div class="flex items-center gap-8">
-                <img src="aveeuro.jpg" alt="Logo" class="brand-logo-img">
+                <div class="relative">
+                    <img src="./aveeuro.jpg" alt="Logo" class="brand-logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="hidden w-[140px] h-[140px] border-2 border-indigo-500/30 rounded-2xl items-center justify-center bg-indigo-500/5 animate-[neonPulse_6s_infinite]">
+                        <i class="fas fa-microchip text-4xl text-indigo-500"></i>
+                    </div>
+                </div>
+
                 <div class="text-center">
                     <span class="text-4xl font-black tracking-[0.3em] block">ETHER LOGIC</span>
                     <span class="text-[10px] text-gray-500 font-bold tracking-[0.6em] uppercase mt-2 block" data-i18n="tagline">Spiritual Data Processing</span>
                 </div>
             </div>
+
             <button onclick="toggleMenu()" class="w-14 h-14 flex items-center justify-center border border-white/10 rounded-full hover:bg-indigo-500/10 transition-all"><i class="fas fa-bars text-indigo-400 text-xl"></i></button>
         </div>
     </header>
@@ -134,7 +157,12 @@
     </main>
 
     <footer class="py-16 text-center border-t border-white/5 relative z-10">
-        <img src="aveeuro.jpg" alt="Footer Logo" class="footer-logo-interactive">
+        <div class="relative inline-block mb-6">
+            <img src="./aveeuro.jpg" alt="Footer Logo" class="w-[60px] h-[60px] object-cover rounded-lg opacity-40 hover:opacity-100 transition-all cursor-pointer grayscale hover:grayscale-0" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="hidden w-[60px] h-[60px] border border-white/10 rounded-lg items-center justify-center bg-white/5">
+                <i class="fas fa-microchip text-xl text-gray-600"></i>
+            </div>
+        </div>
         <div class="text-[9px] text-gray-600 tracking-[0.5em] uppercase">
             © <span id="year"></span> ETHER LOGIC GROUP | WEB & APP DEVELOPMENT PARTNER
         </div>
@@ -143,38 +171,13 @@
     <script>
         document.getElementById('year').innerText = new Date().getFullYear();
 
-        // --- LÓGICA DE AUDIO (Sincronización Ether Logic) ---
-        const audio = document.getElementById('bg-music');
-        let audioIniciado = false;
-
-        // Función para intentar iniciar el audio sin bloquear el navegador
-        const playMusic = () => {
-            if (!audioIniciado) {
-                audio.play()
-                    .then(() => { audioIniciado = true; })
-                    .catch(e => console.log("Navegador esperando acción..."));
-            }
-        };
-
-        // Escuchar CUALQUIER interacción inicial para arrancar la música
-        window.addEventListener('mouseover', playMusic, { once: true });
-        window.addEventListener('click', playMusic, { once: true });
-        window.addEventListener('keydown', playMusic, { once: true });
-        window.addEventListener('scroll', playMusic, { once: true });
-
-        // Detener al salir del navegador
-        document.addEventListener('mouseleave', () => { if(audioIniciado) audio.pause(); });
-        // Reanudar al volver
-        document.addEventListener('mouseenter', () => { if(audioIniciado) audio.play(); });
-
-        // --- TRADUCCIONES Y MENÚS (INTEGRIDAD TOTAL) ---
         const translations = {
-            es: { h1: "Sistemas de Alto Rendimiento", partner_head: "Development Partner", tagline: "Spiritual Data Processing", p: "Ingeniería de software de precisión.", t1: "Web & App Partner", s1: "Desarrollo a medida.", s2: "Seguridad proactiva.", s3: "Optimización core." },
-            en: { h1: "High Performance Systems", partner_head: "Development Partner", tagline: "Spiritual Data Processing", p: "Precision software engineering.", t1: "Web & App Partner", s1: "Custom development.", s2: "Proactive security.", s3: "Core optimization." },
-            it: { h1: "Sistemi ad Alte Prestazioni", partner_head: "Partner di Sviluppo", tagline: "Spiritual Data Processing", p: "Ingegneria del software.", t1: "Web & App Partner", s1: "Sviluppo su misura.", s2: "Sicurezza proattiva.", s3: "Ottimizzazione core." },
-            de: { h1: "Hochleistungssysteme", partner_head: "Entwicklungspartner", tagline: "Spiritual Data Processing", p: "Präzisionssoftware.", t1: "Web & App Partner", s1: "Maßgeschneiderte Entwicklung.", s2: "Proaktive Sicherheit.", s3: "Core-Optimierung." },
-            fr: { h1: "Systèmes Haute Performance", partner_head: "Partenaire", tagline: "Spiritual Data Processing", p: "Ingénierie de précision.", t1: "Web & App Partner", s1: "Développement sur mesure.", s2: "Sécurité proactive.", s3: "Optimisation core." },
-            pt: { h1: "Sistemas de Alta Performance", partner_head: "Parceiro", tagline: "Spiritual Data Processing", p: "Engenharia de precisión.", t1: "Web & App Partner", s1: "Desenvolvimento sob medida.", s2: "Segurança proativa.", s3: "Otimización core." }
+            es: { h1: "Sistemas de Alto Rendimiento", partner_head: "Development Partner", tagline: "Spiritual Data Processing", p: "Ingeniería de software de precisión.", t1: "Web & App Partner", s1: "Desarrollo a medida.", s2: "Seguridad proactiva.", s3: "Optimización core.", menu_showcase: "Galería Showcase" },
+            en: { h1: "High Performance Systems", partner_head: "Development Partner", tagline: "Spiritual Data Processing", p: "Precision software engineering.", t1: "Web & App Partner", s1: "Custom development.", s2: "Proactive security.", s3: "Core optimization.", menu_showcase: "Project Showcase" },
+            it: { h1: "Sistemi ad Alte Prestazioni", partner_head: "Partner di Sviluppo", tagline: "Spiritual Data Processing", p: "Ingegneria del software.", t1: "Web & App Partner", s1: "Sviluppo su misura.", s2: "Sicurezza proattiva.", s3: "Ottimizzazione core.", menu_showcase: "Vetrina Progetti" },
+            de: { h1: "Hochleistungssysteme", partner_head: "Entwicklungspartner", tagline: "Spiritual Data Processing", p: "Präzisionssoftware.", t1: "Web & App Partner", s1: "Maßgeschneiderte Entwicklung.", s2: "Proaktive Sicherheit.", s3: "Core-Optimierung.", menu_showcase: "Projekt-Showcase" },
+            fr: { h1: "Systèmes Haute Performance", partner_head: "Partenaire", tagline: "Spiritual Data Processing", p: "Ingénierie de précision.", t1: "Web & App Partner", s1: "Développement sur mesure.", s2: "Sécurité proactive.", s3: "Optimización core.", menu_showcase: "Galerie Showcase" },
+            pt: { h1: "Sistemas de Alta Performance", partner_head: "Parceiro", tagline: "Spiritual Data Processing", p: "Engenharia de precisão.", t1: "Web & App Partner", s1: "Desenvolvimento sob medida.", s2: "Segurança proativa.", s3: "Otimização core.", menu_showcase: "Portfólio Hub" }
         };
 
         function changeLang(lang) {
@@ -192,11 +195,11 @@
         function toggleMenu() { document.getElementById('menuSidebar').classList.add('active'); document.getElementById('overlay').classList.add('active'); }
         function closeAllMenus() { document.getElementById('langSidebar').classList.remove('active'); document.getElementById('menuSidebar').classList.remove('active'); document.getElementById('overlay').classList.remove('active'); }
 
-        // --- MATRIX CANVAS ---
         const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
         let width = canvas.width = window.innerWidth, height = canvas.height = window.innerHeight;
         const fontSize = 18, columns = Math.floor(width / fontSize), drops = Array(columns).fill(1);
+        
         function drawMatrix() {
             ctx.fillStyle = "rgba(0, 0, 0, 0.15)"; ctx.fillRect(0, 0, width, height);
             ctx.fillStyle = "#6366f1"; ctx.font = fontSize + "px 'JetBrains Mono'";

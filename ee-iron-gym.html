@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        :root { --primary: #ff3e3e; }
+        body { background: #000; color: #fff; font-family: 'Arial Black', sans-serif; margin: 0; }
+        .split { display: flex; height: 100vh; }
+        .split-left { flex: 1; padding: 8%; display: flex; flex-direction: column; justify-content: center; }
+        .split-right { flex: 1; background: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=1000') center; background-size: cover; position: relative; }
+        .split-right::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to right, #000, transparent); }
+        h1 { font-size: 6rem; line-height: 0.8; margin-bottom: 20px; }
+        .tagline { color: var(--primary); font-size: 1.2rem; }
+        .plans { padding: 100px 8%; display: flex; gap: 20px; }
+        .plan-card { flex: 1; border: 2px solid #222; padding: 40px; transition: 0.3s; position: relative; overflow: hidden; }
+        .plan-card:hover { border-color: var(--primary); transform: skew(-2deg); }
+        .plan-card.active { background: var(--primary); color: #000; border: none; }
+        .price { font-size: 3rem; font-weight: 900; }
+        .features { list-style: none; padding: 0; margin: 30px 0; }
+        .features li { margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <div class="split">
+        <div class="split-left">
+            <p class="tagline">// DOMINA TU CUERPO</p>
+            <h1>IRON<br>FORGE</h1>
+            <p style="font-family: 'Inter'; color: #666;">Entrenamiento de élite. Sin máquinas comerciales, solo hierro y sudor.</p>
+            <br>
+            <button style="background: var(--primary); color: #fff; padding: 20px; border: none; width: 250px; font-weight: bold; cursor: pointer;">UNIRSE AHORA</button>
+        </div>
+        <div class="split-right"></div>
+    </div>
+    <div class="plans">
+        <div class="plan-card"><h3>Básico</h3><div class="price">$49<span>/mes</span></div><ul class="features"><li>Acceso 24/7</li><li>Zona de Rack</li><li>Duchas</li></ul></div>
+        <div class="plan-card active"><h3>Pro Warrior</h3><div class="price">$89<span>/mes</span></div><ul class="features"><li>Coach Personal</li><li>Dieta Mensual</li><li>Suplementación</li></ul></div>
+        <div class="plan-card"><h3>Elite Team</h3><div class="price">$150<span>/mes</span></div><ul class="features"><li>Acceso a Competición</li><li>Masaje Deportivo</li><li>Sauna</li></ul></div>
+    </div>
+</body>
+</html>

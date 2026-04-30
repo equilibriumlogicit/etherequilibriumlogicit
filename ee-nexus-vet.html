@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Vet | Animal Health Care</title>
+    <style>
+        :root { --pet-green: #a2ff00; --dark-blue: #0a0c10; }
+        body { background: var(--dark-blue); color: #fff; font-family: 'Inter', sans-serif; margin: 0; }
+        
+        .top-bar { display: flex; justify-content: space-between; padding: 20px 8%; border-bottom: 1px solid #1a1e26; background: #000; }
+        
+        .hero-vet { 
+            display: flex; 
+            height: 90vh; 
+            align-items: center; 
+            padding: 0 8%;
+            background: radial-gradient(circle at 80%, rgba(162, 255, 0, 0.05), transparent);
+        }
+        .hero-vet img { width: 45%; border-radius: 40px; border: 1px solid #222; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .content { flex: 1; padding-right: 50px; }
+        
+        h2 { font-size: 3.5rem; color: #fff; margin-bottom: 10px; }
+        h2 span { color: var(--pet-green); }
+        
+        .features-grid { display: flex; gap: 20px; margin-top: 40px; }
+        .f-item { background: #11141b; padding: 20px; border-radius: 20px; border-left: 4px solid var(--pet-green); flex: 1; }
+        .f-item h4 { margin: 0 0 10px 0; color: var(--pet-green); }
+
+        .emergency-btn { 
+            background: #ff3e3e; color: #fff; padding: 20px 40px; border: none; border-radius: 50px; 
+            font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 30px;
+        }
+        .emergency-btn:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(255, 62, 62, 0.4); }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div style="font-weight: 800; font-size: 1.2rem;">NEXUS <span style="color: var(--pet-green);">VET</span></div>
+        <div style="font-size: 0.8rem; color: #888;">URGENCIAS 24/7 • HOSPITAL • DIAGNÓSTICO</div>
+    </div>
+
+    <section class="hero-vet">
+        <div class="content">
+            <p style="color: var(--pet-green); letter-spacing: 3px;">BIOTECNOLOGÍA ANIMAL</p>
+            <h2>CUIDADO <span>INTELECTUAL</span> PARA TU MEJOR AMIGO.</h2>
+            <p style="color: #888;">No es solo medicina, es tecnología de punta aplicada al bienestar de tu mascota. Diagnósticos por IA y cirugía robótica.</p>
+            
+            <div class="features-grid">
+                <div class="f-item"><h4>Cirugía</h4><p style="font-size: 0.8rem;">Mínima invasión.</p></div>
+                <div class="f-item"><h4>Laboratorio</h4><p style="font-size: 0.8rem;">Resultados inmediatos.</p></div>
+                <div class="f-item"><h4>Wellness</h4><p style="font-size: 0.8rem;">Planes genéticos.</p></div>
+            </div>
+            
+            <button class="emergency-btn">URGENCIA INMEDIATA</button>
+        </div>
+        <img src="https://images.unsplash.com/photo-1584132967334-10e028bd69f7?auto=format&fit=crop&q=80&w=1000" alt="Vet Care">
+    </section>
+</body>
+</html>

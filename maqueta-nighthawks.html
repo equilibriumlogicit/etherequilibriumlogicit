@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nighthawks | Tactical Security Systems</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;400;900&display=swap');
+
+        :root { 
+            --neon: #00f2ff; 
+            --dark: #030303; 
+            --accent: #ff003c;
+            --glass: rgba(255, 255, 255, 0.03);
+        }
+        
+        body { 
+            background: var(--dark); 
+            color: #fff; 
+            font-family: 'Inter', sans-serif; 
+            margin: 0; 
+            overflow-x: hidden; 
+        }
+        
+        /* Navbar de Alta Costura Digital */
+        nav { 
+            display: flex; 
+            justify-content: space-between; 
+            padding: 40px 6%; 
+            align-items: center; 
+            position: absolute; 
+            width: 88%; 
+            z-index: 100; 
+        }
+        
+        .logo { 
+            font-weight: 900; 
+            letter-spacing: 8px; 
+            border-left: 3px solid var(--neon); 
+            padding: 5px 25px; 
+            font-size: 1rem; 
+            text-transform: uppercase;
+        }
+
+        /* Hero: Minimalismo y Profundidad */
+        .hero { 
+            height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            background: linear-gradient(to right, #030303 45%, transparent 100%), 
+                        url('https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&q=80&w=1600'); 
+            background-size: cover;
+            background-position: center;
+            padding: 0 8%;
+        }
+
+        .hero-content { max-width: 800px; }
+        
+        .live-status {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            margin-bottom: 30px;
+            background: rgba(255,255,255,0.05);
+            width: fit-content;
+            padding: 8px 15px;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .dot { height: 8px; width: 8px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 15px var(--accent); animation: pulse 2s infinite; }
+
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        
+        h1 { font-size: 6rem; line-height: 0.85; margin: 25px 0; font-weight: 200; text-transform: uppercase; }
+        h1 span { font-weight: 900; color: var(--neon); text-shadow: 0 0 50px rgba(0, 242, 255, 0.2); }
+
+        /* Grilla de Servicios con Enlaces */
+        .services { 
+            padding: 120px 8%; 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 30px; 
+            background: var(--dark);
+        }
+
+        .s-link { text-decoration: none; color: inherit; display: block; }
+
+        .s-card { 
+            height: 550px; 
+            border-radius: 0; /* Estilo industrial cuadrado */
+            position: relative; 
+            overflow: hidden; 
+            border: 1px solid rgba(255,255,255,0.08);
+            transition: 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .s-card img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            opacity: 0.3; 
+            transition: 1.2s cubic-bezier(0.19, 1, 0.22, 1); 
+            filter: grayscale(100%) contrast(1.2);
+        }
+
+        /* Efecto Hover Premium */
+        .s-link:hover .s-card { 
+            border-color: var(--neon);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+            transform: translateY(-15px);
+        }
+
+        .s-link:hover img { 
+            transform: scale(1.1); 
+            opacity: 0.6; 
+            filter: grayscale(0%) contrast(1);
+        }
+
+        .s-info { 
+            position: absolute; 
+            bottom: 0; 
+            padding: 45px; 
+            background: linear-gradient(transparent, rgba(0,0,0,0.95) 80%); 
+            width: 100%; 
+            box-sizing: border-box;
+            z-index: 2;
+        }
+
+        .s-info h3 { 
+            font-size: 1.6rem; 
+            margin: 0; 
+            letter-spacing: 3px; 
+            color: #fff;
+            transition: 0.3s;
+        }
+
+        .s-link:hover h3 { color: var(--neon); }
+
+        .s-info p { 
+            color: #777; 
+            font-size: 0.85rem; 
+            margin-top: 15px; 
+            line-height: 1.6;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn-main { 
+            background: var(--neon); 
+            color: #000; 
+            padding: 22px 50px; 
+            border: none; 
+            font-weight: 900; 
+            cursor: pointer; 
+            text-transform: uppercase; 
+            letter-spacing: 4px; 
+            transition: 0.4s;
+            font-size: 0.8rem;
+        }
+
+        .btn-main:hover {
+            letter-spacing: 6px;
+            box-shadow: 0 0 40px rgba(0, 242, 255, 0.4);
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">Nighthawks</div>
+        <div style="font-size: 0.6rem; letter-spacing: 4px; opacity: 0.5; font-weight: 400;">
+            ESTABLISHED 2026 • OPERATIONAL WORLDWIDE
+        </div>
+    </nav>
+    
+    <section class="hero">
+        <div class="hero-content">
+            <div class="live-status"><div class="dot"></div> SECURE CONNECTION ESTABLISHED</div>
+            <h1>ELITE <span>DEFENSE.</span></h1>
+            <p style="color: #666; font-size: 1.3rem; line-height: 1.5; max-width: 650px; font-weight: 200;">
+                Ingeniería en seguridad privada para activos críticos y figuras de alto valor. Inteligencia invisible, protección absoluta.
+            </p>
+            <br><br>
+            <button class="btn-main">Activar Protocolo</button>
+        </div>
+    </section>
+
+    <section class="services">
+        <a href="vigilancia.html" class="s-link">
+            <div class="s-card">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800" alt="Vigilancia">
+                <div class="s-info">
+                    <h3>VIGILANCIA</h3>
+                    <p>Monitoreo táctico perimetral y drones autónomos.</p>
+                </div>
+            </div>
+        </a>
+
+        <a href="ciberdefensa.html" class="s-link">
+            <div class="s-card">
+                <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800" alt="Ciber">
+                <div class="s-info">
+                    <h3>CIBERDEFENSA</h3>
+                    <p>Encriptación de datos y contrainteligencia digital.</p>
+                </div>
+            </div>
+        </a>
+
+        <a href="logistica.html" class="s-link">
+            <div class="s-card">
+                <img src="https://images.unsplash.com/photo-1511225596324-a7408796123e?auto=format&fit=crop&q=80&w=800" alt="Logistica">
+                <div class="s-info">
+                    <h3>LOGÍSTICA VIP</h3>
+                    <p>Transporte blindado y escolta táctica ejecutiva.</p>
+                </div>
+            </div>
+        </a>
+    </section>
+
+</body>
+</html>

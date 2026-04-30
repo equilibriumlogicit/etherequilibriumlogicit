@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Nexus | Ether Equilibrium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-black: #000000;
+            --glass: rgba(20, 20, 20, 0.85);
+            --border: rgba(255, 255, 255, 0.15);
+            --text: #ffffff;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-black); color: var(--text); display: flex; min-height: 100vh; }
+
+        /* --- PANEL IZQUIERDO: FAJOS DE 100 EUROS --- */
+        .left-panel {
+            width: 45%;
+            position: fixed;
+            height: 100vh;
+            background-image: linear-gradient(to right, rgba(0,0,0,0) 50%, var(--bg-black) 100%), 
+                              url('https://cdn.pixabay.com/photo/2014/10/23/21/20/euro-500247_1280.jpg');
+            background-size: cover;
+            background-position: center;
+            border-right: 1px solid var(--border);
+            display: flex;
+            align-items: flex-end;
+            padding: 60px;
+            z-index: 1;
+        }
+
+        .left-panel h2 { font-size: 3.5rem; font-weight: 200; letter-spacing: -3px; line-height: 0.9; text-transform: uppercase; text-shadow: 2px 2px 10px rgba(0,0,0,0.8); }
+
+        /* --- PANEL DERECHO --- */
+        .right-panel { width: 55%; margin-left: 45%; padding: 60px; background: var(--bg-black); min-height: 100vh; }
+
+        .brand { font-weight: 700; letter-spacing: 6px; font-size: 1rem; border-bottom: 2px solid #fff; display: inline-block; margin-bottom: 50px; padding-bottom: 5px; }
+
+        /* CONVERSOR */
+        .converter-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 35px;
+            margin-bottom: 60px;
+            backdrop-filter: blur(10px);
+        }
+
+        .input-row { display: grid; grid-template-columns: 1fr 40px 1fr; align-items: center; gap: 15px; }
+
+        .field { background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 15px; border-radius: 12px; }
+        .field label { display: block; font-size: 0.65rem; color: #888; text-transform: uppercase; margin-bottom: 5px; letter-spacing: 1px; }
+        .field input { width: 100%; background: transparent; border: none; color: #fff; font-size: 1.8rem; outline: none; font-weight: 700; }
+        .field select { width: 100%; background: transparent; border: none; color: #ccc; font-size: 0.85rem; margin-top: 5px; outline: none; cursor: pointer; }
+        .field select option { background: #111; color: #fff; }
+
+        /* GRID DE TARJETAS */
+        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+
+        .card {
+            height: 240px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid var(--border);
+            transition: 0.4s ease;
+        }
+
+        .card:hover { transform: translateY(-8px); border-color: #fff; }
+
+        .card-img { 
+            position: absolute; 
+            width: 100%; 
+            height: 100%; 
+            background-size: cover; 
+            background-position: center; 
+            filter: brightness(0.4) grayscale(0.5); 
+            transition: 0.5s; 
+        }
+        
+        .card:hover .card-img { filter: brightness(0.6) grayscale(0); transform: scale(1.05); }
+
+        .card-content { position: relative; z-index: 2; padding: 25px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; background: linear-gradient(transparent, rgba(0,0,0,0.8)); }
+        
+        .flag-box { width: 40px; height: 40px; border-radius: 50%; border: 1px solid #fff; overflow: hidden; }
+        .flag-box img { width: 100%; height: 100%; object-fit: cover; }
+
+        .price { font-size: 2.2rem; font-weight: 700; letter-spacing: -1px; }
+
+        @media (max-width: 1000px) { 
+            .left-panel { display: none; } 
+            .right-panel { width: 100%; margin-left: 0; padding: 30px; } 
+            .input-row { grid-template-columns: 1fr; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="left-panel">
+        <div>
+            <h2>Ether<br>Equilibrium</h2>
+            <p style="color: #888; letter-spacing: 5px; font-size: 0.75rem; margin-top: 10px;">GLOBAL ASSET DIVISION</p>
+        </div>
+    </div>
+
+    <div class="right-panel">
+        <div class="brand">GLOBAL NEXUS</div>
+
+        <section class="converter-card">
+            <div class="input-row">
+                <div class="field">
+                    <label>Desde</label>
+                    <input type="number" value="1000">
+                    <select>
+                        <optgroup label="AMÉRICA">
+                            <option value="USD">USD - Dólar Estadounidense</option>
+                            <option value="MXN">MXN - Peso Mexicano</option>
+                            <option value="ARS">ARS - Peso Argentino</option>
+                            <option value="BRL">BRL - Real Brasileño</option>
+                        </optgroup>
+                        <optgroup label="EUROPA">
+                            <option value="EUR" selected>EUR - Euro</option>
+                            <option value="GBP">GBP - Libra Esterlina</option>
+                            <option value="CHF">CHF - Franco Suizo</option>
+                        </optgroup>
+                        <optgroup label="ASIA">
+                            <option value="JPY">JPY - Yen Japonés</option>
+                            <option value="CNY">CNY - Yuan Chino</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div style="text-align: center; font-size: 1.2rem; color: #444;">⇄</div>
+                <div class="field">
+                    <label>Hacia</label>
+                    <input type="number" value="108.50" readonly>
+                    <select>
+                        <option value="USD">USD - Dólar Estadounidense</option>
+                        <option value="EUR">EUR - Euro</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <h3 style="margin-bottom: 30px; font-weight: 200; letter-spacing: 3px; color: #555;">MERCADOS ACTIVOS</h3>
+
+        <div class="grid-cards">
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://cdn.pixabay.com/photo/2017/02/10/14/06/money-2055248_640.jpg');"></div>
+                <div class="card-content">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="font-weight: 700;">EUROZONE / EUR</span>
+                        <div class="flag-box"><img src="https://flagcdn.com/w80/eu.png"></div>
+                    </div>
+                    <div class="price">0.9255</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://cdn.pixabay.com/photo/2017/01/25/12/31/money-2007832_640.jpg');"></div>
+                <div class="card-content">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="font-weight: 700;">FEDERAL / USD</span>
+                        <div class="flag-box"><img src="https://flagcdn.com/w80/us.png"></div>
+                    </div>
+                    <div class="price">1.0000</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://cdn.pixabay.com/photo/2014/10/23/21/19/sterling-500236_640.jpg');"></div>
+                <div class="card-content">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="font-weight: 700;">STERLING / GBP</span>
+                        <div class="flag-box"><img src="https://flagcdn.com/w80/gb.png"></div>
+                    </div>
+                    <div class="price">0.7892</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://cdn.pixabay.com/photo/2016/01/15/15/48/banknotes-1142010_640.jpg');"></div>
+                <div class="card-content">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="font-weight: 700;">YEN / JPY</span>
+                        <div class="flag-box"><img src="https://flagcdn.com/w80/jp.png"></div>
+                    </div>
+                    <div class="price">151.30</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://cdn.pixabay.com/photo/2017/08/30/17/23/money-2697945_640.jpg');"></div>
+                <div class="card-content">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="font-weight: 700;">FRANCO / CHF</span>
+                        <div class="flag-box"><img src="https://flagcdn.com/w80/ch.png"></div>
+                    </div>
+                    <div class="price">0.8841</div>
+                </div>
+            </div>
+        </div>
+
+        <footer style="margin-top: 60px; color: #222; font-size: 0.7rem; text-align: center; letter-spacing: 4px;">
+            ETHER EQUILIBRIUM HUB // 2026
+        </footer>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        :root { --accent: #c5a059; --bg: #000; }
+        body { background: var(--bg); color: #fff; font-family: 'Inter', sans-serif; margin: 0; line-height: 1.6; }
+        header { height: 100vh; display: flex; align-items: center; padding: 0 8%; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200'); background-size: cover; }
+        nav { position: fixed; top: 0; width: 100%; padding: 30px 8%; display: flex; justify-content: space-between; box-sizing: border-box; z-index: 100; backdrop-filter: blur(10px); }
+        .logo { font-weight: 900; letter-spacing: 5px; }
+        h1 { font-size: 5vw; line-height: 1; margin: 0; font-weight: 200; }
+        h1 b { font-weight: 900; color: var(--accent); }
+        .section { padding: 100px 8%; }
+        .grid-services { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 50px; }
+        .service-item { border-top: 1px solid #333; padding-top: 20px; }
+        .service-item h3 { color: var(--accent); text-transform: uppercase; font-size: 0.9rem; }
+        .stats { display: flex; justify-content: space-between; background: #0a0a0a; padding: 60px 8%; border-y: 1px solid #222; }
+        .stat-box h2 { font-size: 3rem; margin: 0; color: var(--accent); }
+        .footer-cta { text-align: center; padding: 100px 0; border-top: 1px solid #222; }
+        .btn-gold { border: 1px solid var(--accent); padding: 15px 40px; color: var(--accent); text-decoration: none; transition: 0.4s; }
+        .btn-gold:hover { background: var(--accent); color: #000; }
+    </style>
+</head>
+<body>
+    <nav><div class="logo">ALPHA</div><div>ESTUDIO • PROYECTOS • CONTACTO</div></nav>
+    <header>
+        <div>
+            <p style="letter-spacing: 10px; color: var(--accent);">PREMIUM ARCHITECTURE</p>
+            <h1>DISEÑO QUE<b> PERMANECE.</b></h1>
+        </div>
+    </header>
+    <section class="stats">
+        <div class="stat-box"><h2>12</h2><p>Premios Int.</p></div>
+        <div class="stat-box"><h2>150+</h2><p>Proyectos Eco</p></div>
+        <div class="stat-box"><h2>09</h2><p>Países</p></div>
+    </section>
+    <section class="section">
+        <h2>SERVICIOS EXCLUSIVOS</h2>
+        <div class="grid-services">
+            <div class="service-item"><h3>Residencial</h3><p>Mansiones tecnológicas con integración de IA y domótica avanzada.</p></div>
+            <div class="service-item"><h3>Corporativo</h3><p>Espacios que potencian la productividad y el bienestar laboral.</p></div>
+            <div class="service-item"><h3>Interiorismo</h3><p>Curaduría de materiales nobles y mobiliario de autor.</p></div>
+        </div>
+    </section>
+    <div class="footer-cta"><a href="#" class="btn-gold">SOLICITAR CONSULTA</a></div>
+</body>
+</html>

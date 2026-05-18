@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #050505; color: #ffffff; }
+        tr { border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.2s; }
+        tr:hover { background: rgba(99, 102, 241, 0.05); }
+    </style>
+</head>
+<body class="p-8">
+    <div class="max-w-6xl mx-auto">
+        <a href="index.html" class="text-indigo-400 text-xs font-bold uppercase mb-8 inline-block hover:underline"><i class="fas fa-arrow-left mr-2"></i> Volver al Nexus</a>
+        <h2 class="text-3xl font-black uppercase mb-10 tracking-tighter">Administración de Personal</h2>
+        
+        <div class="bg-[#0a0a0a] border border-white/10 rounded-sm overflow-hidden">
+            <table class="w-full text-left border-collapse">
+                <thead class="bg-white/5">
+                    <tr>
+                        <th class="p-4 text-[10px] font-black uppercase text-gray-500">Colaborador</th>
+                        <th class="p-4 text-[10px] font-black uppercase text-gray-500">Tipo Identificación</th>
+                        <th class="p-4 text-[10px] font-black uppercase text-gray-500">Documento</th>
+                        <th class="p-4 text-[10px] font-black uppercase text-gray-500">Área</th>
+                        <th class="p-4 text-[10px] font-black uppercase text-gray-500 text-right">Acción</th>
+                    </tr>
+                </thead>
+                <tbody class="text-sm">
+                    <tr>
+                        <td class="p-4 font-bold">ALEXIS RIVERA</td>
+                        <td class="p-4 text-indigo-400 font-bold">DNI</td>
+                        <td class="p-4 font-mono">20.445.XXX</td>
+                        <td class="p-4">Sistemas</td>
+                        <td class="p-4 text-right"><button class="text-xs font-bold border border-white/10 px-3 py-1 hover:bg-white/10 transition-all">EDITAR</button></td>
+                    </tr>
+                    <tr>
+                        <td class="p-4 font-bold">MARCO POLO</td>
+                        <td class="p-4 text-indigo-400 font-bold">Pasaporte</td>
+                        <td class="p-4 font-mono">ITA-998234-L</td>
+                        <td class="p-4">Marketing</td>
+                        <td class="p-4 text-right"><button class="text-xs font-bold border border-white/10 px-3 py-1 hover:bg-white/10 transition-all">EDITAR</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

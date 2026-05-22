@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retoque High-End & Beauty | Ether Equilibrium</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=JetBrains+Mono:wght@100;200&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; background: #000; color: #fff; margin: 0; overflow-x: hidden; }
+
+        /* --- FONDO MATRIX DIGITAL DE RETOQUE --- */
+        #matrix-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.3; pointer-events: none; }
+
+        /* --- LOGOS TIPO ADOBE EN CSS --- */
+        .adobe-logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', sans-serif;
+            font-weight: 800;
+            font-size: 20px;
+            user-select: none;
+            transition: 0.3s;
+        }
+        .logo-ps {
+            background-color: #001e36;
+            border: 2px solid #00c8ff;
+            color: #00c8ff;
+            box-shadow: 0 0 15px rgba(0, 200, 255, 0.2);
+        }
+
+        /* --- INTERACTIVE SLIDER (BEFORE/AFTER) --- */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 450px;
+            overflow: hidden;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .image-before, .image-after {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            user-select: none;
+        }
+        .image-before {
+            /* Simulación de foto original opaca con ruido/grano */
+            background-image: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url('https://placehold.co/800x600/1e293b/ffffff?text=FOTO+ORIGINAL+(SIN+RETOQUE)');
+            filter: grayscale(20%) contrast(90%);
+        }
+        .image-after {
+            /* Simulación de foto retocada ultra limpia, iluminada y colorida */
+            background-image: linear-gradient(rgba(99, 102, 241, 0.15), rgba(0,0,0,0.15)), url('https://placehold.co/800x600/312e81/ffffff?text=RETOQUE+HIGH-END+(FINAL)');
+            filter: saturate(115%) contrast(105%) brightness(105%);
+            width: 50%; /* Controlado dinámicamente por JS */
+            border-right: 3px solid #6366f1;
+        }
+        .slider-handle {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 4px;
+            height: 100%;
+            background: #6366f1;
+            cursor: ew-resize;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+        .slider-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 48px;
+            height: 48px;
+            background: #6366f1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(99,102,241,0.6);
+            pointer-events: none;
+            z-index: 11;
+        }
+
+        /* --- SIDEBARS --- */
+        .sidebar { position: fixed; top: 0; height: 100vh; width: 350px; background: #080808; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); z-index: 2000; padding: 2.5rem; overflow-y: auto; }
+        #menuSidebar { right: -350px; border-left: 1px solid rgba(99, 102, 241, 0.3); }
+        #menuSidebar.active { transform: translateX(-350px); }
+
+        .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); opacity: 0; visibility: hidden; transition: 0.4s; z-index: 1500; }
+        .sidebar-overlay.active { opacity: 1; visibility: visible; }
+
+        .glass-header { background: rgba(0,0,0,0.85); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.05); position: fixed; width: 100%; top: 0; z-index: 100; }
+        
+        .tech-card { 
+            background: rgba(255, 255, 255, 0.03); 
+            backdrop-filter: blur(15px); 
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            padding: 2.5rem; 
+            border-radius: 20px; 
+            transition: 0.4s; 
+        }
+        .tech-card:hover { border-color: #00c8ff; transform: translateY(-5px); background: rgba(0, 200, 255, 0.02); }
+
+        .badge { font-family: 'JetBrains Mono'; font-size: 10px; color: #00c8ff; border: 1px solid #00c8ff; padding: 2px 8px; border-radius: 4px; margin-right: 5px; }
+    </style>
+</head>
+<body>
+
+    <canvas id="matrix-canvas"></canvas>
+    <div id="overlay" class="sidebar-overlay" onclick="closeAllMenus()"></div>
+
+    <!-- Menú de Navegación -->
+    <div id="menuSidebar" class="sidebar">
+        <div class="flex justify-between items-center mb-10 text-indigo-500 font-bold uppercase tracking-widest text-[10px]">
+            <span>Explorar Servicios</span>
+            <button onclick="closeAllMenus()"><i class="fas fa-times text-lg"></i></button>
+        </div>
+        <div class="space-y-4">
+            <a href="index.html" class="block p-5 bg-white/5 rounded-lg border border-transparent hover:border-indigo-500 text-xs font-bold uppercase tracking-widest transition-all">
+                <i class="fas fa-home mr-3 text-indigo-500"></i> Inicio
+            </a>
+            <div class="pt-4 pb-2 text-[9px] text-gray-600 font-bold uppercase tracking-widest">Especialidades</div>
+            <a href="retoque.html" class="block p-5 bg-white/5 rounded-lg border border-indigo-500 text-xs font-bold uppercase tracking-widest transition-all">Retoque High-End</a>
+            <a href="fotomontaje.html" class="block p-5 bg-white/5 rounded-lg border border-transparent hover:border-indigo-500 text-xs font-bold uppercase tracking-widest transition-all">Composición Digital</a>
+            <a href="colorizacion.html" class="block p-5 bg-white/5 rounded-lg border border-transparent hover:border-indigo-500 text-xs font-bold uppercase tracking-widest transition-all">Corrección de Color</a>
+        </div>
+    </div>
+
+    <!-- Encabezado -->
+    <header class="glass-header h-52 flex items-center">
+        <div class="max-w-7xl mx-auto px-8 w-full flex items-center justify-between relative z-50">
+            <button onclick="toggleMenu()" class="w-14 h-14 flex items-center justify-center border border-white/10 rounded-full hover:bg-indigo-500/10 transition-all"><i class="fas fa-bars text-indigo-400 text-xl"></i></button>
+            
+            <div class="flex items-center gap-8">
+                <div class="w-[140px] h-[140px] border-2 border-cyan-500/30 rounded-2xl flex items-center justify-center bg-cyan-500/5">
+                    <div class="adobe-logo logo-ps scale-150">Ps</div>
+                </div>
+                <div class="text-center">
+                    <span class="text-4xl font-black tracking-[0.3em] block uppercase">RETOQUE HIGH-END</span>
+                    <span class="text-[10px] text-gray-500 font-bold tracking-[0.6em] uppercase mt-2 block">Ether Equilibrium / Beauty & Editorial</span>
+                </div>
+            </div>
+
+            <div class="w-14 h-14"></div> <!-- Espaciador -->
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="pt-72 pb-20 relative z-10">
+        <section class="max-w-5xl mx-auto px-8 mb-20">
+            <h1 class="text-6xl font-black mb-6">Retoque de Piel & Beauty</h1>
+            <p class="text-gray-400 text-xl leading-relaxed">
+                Nuestra especialidad insignia. Aplicamos técnicas avanzadas de nivel editorial que preservan los poros y la textura natural de la piel sin generar el temido "efecto plástico", potenciando la luz y la fisionomía con elegancia matemática.
+            </p>
+        </section>
+
+        <!-- Demostración interactiva de Antes y Después -->
+        <section class="max-w-5xl mx-auto px-8 mb-20">
+            <div class="mb-6 flex justify-between items-center">
+                <div>
+                    <h3 class="text-2xl font-bold uppercase tracking-widest">Interactúa con el Proceso</h3>
+                    <p class="text-sm text-gray-500">Arrastra la barra central de izquierda a derecha para comparar el archivo RAW inicial y el acabado High-End final.</p>
+                </div>
+                <span class="text-xs bg-indigo-500/20 text-indigo-300 font-mono px-3 py-1 rounded border border-indigo-500/30">Dodge & Burn + FS</span>
+            </div>
+
+            <div class="slider-container" id="sliderContainer">
+                <div class="image-before"></div>
+                <div class="image-after" id="afterImg"></div>
+                <div class="slider-handle" id="sliderHandle"></div>
+                <div class="slider-button" id="sliderBtn">
+                    <i class="fas fa-arrows-alt-h text-white"></i>
+                </div>
+            </div>
+        </section>
+
+        <section class="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <div class="tech-card">
+                <h3 class="text-lg font-bold uppercase tracking-widest mb-3 text-cyan-400">01. Separación de Frecuencias</h3>
+                <p class="text-gray-400 text-sm">
+                    Separamos la información de textura (alta frecuencia) y el color/tono (baja frecuencia) en capas independientes. Esto nos permite perfeccionar transiciones de tono sin tocar los poros de la piel.
+                </p>
+                <div class="mt-4"><span class="badge">Textura Intacta</span><span class="badge">Frecuencia Alta/Baja</span></div>
+            </div>
+
+            <div class="tech-card">
+                <h3 class="text-lg font-bold uppercase tracking-widest mb-3 text-cyan-400">02. Micro Dodge & Burn</h3>
+                <p class="text-gray-400 text-sm">
+                    Aclaramos y oscurecemos píxel por píxel de manera manual con curvas locales para corregir irregularidades de volumen en la piel, logrando una transición tonal suave sin comprometer el realismo.
+                </p>
+                <div class="mt-4"><span class="badge">Pixel Mapping</span><span class="badge">Curvas 3D</span></div>
+            </div>
+
+            <div class="tech-card">
+                <h3 class="text-lg font-bold uppercase tracking-widest mb-3 text-cyan-400">03. Contorneo & Liquify</h3>
+                <p class="text-gray-400 text-sm">
+                    Ajustes de simetría sutiles y modelado no invasivo. Corregimos cabello rebelde, imperfecciones de vestuario, silueta física y optimizamos el contraste anatómico para un impacto editorial instantáneo.
+                </p>
+                <div class="mt-4"><span class="badge">Preservación Orgánica</span><span class="badge">Liquify Avanzado</span></div>
+            </div>
+
+        </section>
+
+        <div class="text-center mt-20">
+            <a href="index.html" class="inline-block px-12 py-5 border border-cyan-500 text-cyan-400 font-bold uppercase text-xs tracking-widest hover:bg-cyan-500 hover:text-white transition-all">
+                Regresar al Estudio Principal
+            </a>
+        </div>
+    </main>
+
+    <!-- Pie de página -->
+    <footer class="py-16 text-center border-t border-white/5 relative z-10">
+        <div class="text-[9px] text-gray-600 tracking-[0.5em] uppercase">
+            © <span id="year"></span> ETHER EQUILIBRIUM STUDIO | DIGITAL POST-PRODUCTION
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('year').innerText = new Date().getFullYear();
+        function toggleMenu() { document.getElementById('menuSidebar').classList.toggle('active'); document.getElementById('overlay').classList.toggle('active'); }
+        function closeAllMenus() { document.getElementById('menuSidebar').classList.remove('active'); document.getElementById('overlay').classList.remove('active'); }
+
+        // --- LÓGICA DEL ANTES Y DESPUÉS (SLIDER INTERACTIVO) ---
+        const container = document.getElementById('sliderContainer');
+        const afterImg = document.getElementById('afterImg');
+        const handle = document.getElementById('sliderHandle');
+        const btn = document.getElementById('sliderBtn');
+
+        function moveSlider(x) {
+            const rect = container.getBoundingClientRect();
+            let position = ((x - rect.left) / rect.width) * 100;
+            if (position < 0) position = 0;
+            if (position > 100) position = 100;
+            
+            afterImg.style.width = position + '%';
+            handle.style.left = position + '%';
+            btn.style.left = position + '%';
+        }
+
+        container.addEventListener('mousemove', (e) => {
+            moveSlider(e.clientX);
+        });
+
+        container.addEventListener('touchmove', (e) => {
+            if(e.touches.length > 0) {
+                moveSlider(e.touches[0].clientX);
+            }
+        });
+
+        // --- EFECTO MATRIX TEMÁTICO DE RETOQUE ---
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth, height = canvas.height = window.innerHeight;
+        const fontSize = 16, columns = Math.floor(width / fontSize), drops = Array(columns).fill(1);
+        
+        const photoTerms = ["D&B", "FREQ", "PORTRAIT", "SKIN", "TEXTURE", "SHARPEN", "MASK", "BRUSH", "GLOW", "HEAL", "CLONE"];
+
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.15)"; ctx.fillRect(0, 0, width, height);
+            ctx.fillStyle = "#00c8ff"; ctx.font = "bold " + fontSize + "px 'JetBrains Mono'";
+            
+            for (let i = 0; i < drops.length; i++) {
+                const text = photoTerms[Math.floor(Math.random() * photoTerms.length)][0];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                
+                if (drops[i] * fontSize > height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 65);
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>

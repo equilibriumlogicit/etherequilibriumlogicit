@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Grading & Revelado RAW | Ether Equilibrium</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=JetBrains+Mono:wght@100;200&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; background: #000; color: #fff; margin: 0; overflow-x: hidden; }
+
+        /* --- FONDO MATRIX DIGITAL DE COLOR grading --- */
+        #matrix-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.3; pointer-events: none; }
+
+        /* --- LOGOS TIPO ADOBE EN CSS --- */
+        .adobe-logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', sans-serif;
+            font-weight: 800;
+            font-size: 20px;
+            user-select: none;
+            transition: 0.3s;
+        }
+        .logo-lr {
+            background-color: #001d21;
+            border: 2px solid #00ffd0;
+            color: #00ffd0;
+            box-shadow: 0 0 15px rgba(0, 255, 208, 0.2);
+        }
+
+        /* --- SIDEBARS --- */
+        .sidebar { position: fixed; top: 0; height: 100vh; width: 350px; background: #080808; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); z-index: 2000; padding: 2.5rem; overflow-y: auto; }
+        #menuSidebar { right: -350px; border-left: 1px solid rgba(99, 102, 241, 0.3); }
+        #menuSidebar.active { transform: translateX(-350px); }
+
+        .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); opacity: 0; visibility: hidden; transition: 0.4s; z-index: 1500; }
+        .sidebar-overlay.active { opacity: 1; visibility: visible; }
+
+        .glass-header { background: rgba(0,0,0,0.85); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.05); position: fixed; width: 100%; top: 0; z-index: 100; }
+        
+        .tech-card { 
+            background: rgba(255, 255, 255, 0.03); 
+            backdrop-filter: blur(15px); 
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            padding: 2.5rem; 
+            border-radius: 20px; 
+            transition: 0.4s; 
+        }
+        .tech-card:hover { border-color: #00ffd0; transform: translateY(-5px); background: rgba(0, 255, 208, 0.02); }
+
+        .badge { font-family: 'JetBrains Mono'; font-size: 10px; color: #00ffd0; border: 1px solid #00ffd0; padding: 2px 8px; border-radius: 4px; margin-right: 5px; }
+
+        /* --- PREVIEW CANVAS DE ETALONAJE --- */
+        .color-sandbox {
+            position: relative;
+            width: 100%;
+            height: 380px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('https://placehold.co/1000x500/1e293b/ffffff?text=ETER+EQUILIBRIUM+RAW+SCENE');
+            background-size: cover;
+            background-position: center;
+            transition: filter 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* Efectos aplicados dinámicamente */
+        .preset-cyberpunk { filter: hue-rotate(50deg) saturate(180%) contrast(110%) brightness(95%); }
+        .preset-golden { filter: sepia(0.5) hue-rotate(-10deg) saturate(140%) contrast(105%); }
+        .preset-teal { filter: contrast(120%) saturate(120%) hue-rotate(170deg) brightness(90%); }
+        .preset-noir { filter: grayscale(100%) contrast(145%) brightness(85%); }
+    </style>
+</head>
+<body>
+
+    <canvas id="matrix-canvas"></canvas>
+    <div id="overlay" class="sidebar-overlay" onclick="closeAllMenus()"></div>
+
+    <!-- Menú de Navegación -->
+    <div id="menuSidebar" class="sidebar">
+        <div class="flex justify-between items-center mb-10 text-indigo-500 font-bold uppercase tracking-widest text-[10px]">
+            <span>Explorar Servicios</span>
+            <button onclick="closeAllMenus()"><i class="fas fa-times text-lg"></i></button>
+        </div>
+        <div class="space-y-4">
+            <a href="index.html" class="block p-5 bg-white/5 rounded-lg border border-transparent hover:border-indigo-500 text-xs font-bold uppercase tracking-widest transition-all">
+                <i class="fas fa-home mr-3 text-indigo-500"></i> Inicio
+            </a>
+            <div class="pt-4 pb-2 text-[9px] text-gray-600 font-bold uppercase tracking-widest">Especialidades</div>
+            <a href="retoque.html" class="block p-5 bg-white/5 rounded-lg border border-transparent hover:border-indigo-500 text-xs font-bold uppercase tracking-widest transition-all">Retoque High-End</a>
+            <a href="fotomontaje.html" class="block p-5 bg-white/5 rounded-lg border border-transparent hover:border-indigo-500 text-xs font-bold uppercase tracking-widest transition-all">Composición Digital</a>
+            <a href="colorizacion.html" class="block p-5 bg-white/5 rounded-lg border border-indigo-500 text-xs font-bold uppercase tracking-widest transition-all">Corrección de Color</a>
+        </div>
+    </div>
+
+    <!-- Encabezado -->
+    <header class="glass-header h-52 flex items-center">
+        <div class="max-w-7xl mx-auto px-8 w-full flex items-center justify-between relative z-50">
+            <button onclick="toggleMenu()" class="w-14 h-14 flex items-center justify-center border border-white/10 rounded-full hover:bg-indigo-500/10 transition-all"><i class="fas fa-bars text-indigo-400 text-xl"></i></button>
+            
+            <div class="flex items-center gap-8">
+                <div class="w-[140px] h-[140px] border-2 border-emerald-500/30 rounded-2xl flex items-center justify-center bg-emerald-500/5">
+                    <div class="adobe-logo logo-lr scale-150">Lr</div>
+                </div>
+                <div class="text-center">
+                    <span class="text-4xl font-black tracking-[0.3em] block uppercase">COLOR GRADING</span>
+                    <span class="text-[10px] text-gray-500 font-bold tracking-[0.6em] uppercase mt-2 block">Ether Equilibrium / Color Science</span>
+                </div>
+            </div>
+
+            <div class="w-14 h-14"></div> <!-- Espaciador -->
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="pt-72 pb-20 relative z-10">
+        <section class="max-w-5xl mx-auto px-8 mb-20">
+            <h1 class="text-6xl font-black mb-6">Revelado RAW & Atmosfera</h1>
+            <p class="text-gray-400 text-xl leading-relaxed">
+                El color es el responsable de transmitir la emoción en cada imagen. Estructuramos armonías visuales complejas calibrando luminancia, tono y saturación para generar atmósferas de nivel cinematográfico y comercial coherentes con tu marca.
+            </p>
+        </section>
+
+        <!-- Sandbox interactivo de Colorizacion -->
+        <section class="max-w-7xl mx-auto px-8 mb-20">
+            <h3 class="text-2xl font-bold uppercase tracking-widest mb-2">Simulador de Color Grading (Presets LUT)</h3>
+            <p class="text-sm text-gray-500 mb-8">Haz clic sobre los botones de preset cromático para aplicar diferentes calibraciones LUT de revelado fotográfico digital sobre la escena.</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                
+                <!-- Lienzo de previsualización -->
+                <div class="lg:col-span-3">
+                    <div id="gradingSandbox" class="color-sandbox"></div>
+                </div>
+
+                <!-- Botones / Presets -->
+                <div class="flex flex-col gap-3 justify-center">
+                    <button onclick="applyPreset('default', this)" class="preset-btn w-full p-4 border border-emerald-500 bg-emerald-500/10 hover:bg-emerald-500 hover:text-black font-bold text-xs uppercase tracking-wider rounded-xl transition-all">
+                        Original (Neutro)
+                    </button>
+                    <button onclick="applyPreset('cyberpunk', this)" class="preset-btn w-full p-4 border border-white/10 hover:border-emerald-500 font-bold text-xs uppercase tracking-wider rounded-xl transition-all">
+                        Cyberpunk Violet
+                    </button>
+                    <button onclick="applyPreset('golden', this)" class="preset-btn w-full p-4 border border-white/10 hover:border-emerald-500 font-bold text-xs uppercase tracking-wider rounded-xl transition-all">
+                        Golden Sunset
+                    </button>
+                    <button onclick="applyPreset('teal', this)" class="preset-btn w-full p-4 border border-white/10 hover:border-emerald-500 font-bold text-xs uppercase tracking-wider rounded-xl transition-all">
+                        Teal & Orange
+                    </button>
+                    <button onclick="applyPreset('noir', this)" class="preset-btn w-full p-4 border border-white/10 hover:border-emerald-500 font-bold text-xs uppercase tracking-wider rounded-xl transition-all">
+                        Moody Noir (B&W)
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <div class="tech-card">
+                <h3 class="text-lg font-bold uppercase tracking-widest mb-3 text-emerald-400">Calibración HSL Avanzada</h3>
+                <p class="text-gray-400 text-sm">
+                    Modificamos el tono (Hue), saturación (Saturation) y luminancia (Luminance) color por color. Nos permite suavizar verdes chillones o matizar tonos de piel rojizos de manera aislada.
+                </p>
+                <div class="mt-4"><span class="badge">HSL Isolation</span><span class="badge">Skin Protection</span></div>
+            </div>
+
+            <div class="tech-card">
+                <h3 class="text-lg font-bold uppercase tracking-widest mb-3 text-emerald-400">Curva de Tonos RGB</h3>
+                <p class="text-gray-400 text-sm">
+                    Modelamos el contraste tonal canal por canal (Rojo, Verde, Azul). Logramos negros lavados de estilo mate analógico o sombras frías contrastadas con altas luces cálidas.
+                </p>
+                <div class="mt-4"><span class="badge">Curves Editing</span><span class="badge">Analog Greens</span></div>
+            </div>
+
+            <div class="tech-card">
+                <h3 class="text-lg font-bold uppercase tracking-widest mb-3 text-emerald-400">Equalización de Rango RAW</h3>
+                <p class="text-gray-400 text-sm">
+                    Extraemos el máximo rango dinámico de los negativos digitales (.ARW, .CR2, .DNG), recuperando información perdida en las sombras más profundas y las zonas con exceso de iluminación.
+                </p>
+                <div class="mt-4"><span class="badge">Highlights Recovery</span><span class="badge">Dynamic Range</span></div>
+            </div>
+
+        </section>
+
+        <div class="text-center mt-20">
+            <a href="index.html" class="inline-block px-12 py-5 border border-emerald-500 text-emerald-400 font-bold uppercase text-xs tracking-widest hover:bg-emerald-500 hover:text-white transition-all">
+                Regresar al Estudio Principal
+            </a>
+        </div>
+    </main>
+
+    <!-- Pie de página -->
+    <footer class="py-16 text-center border-t border-white/5 relative z-10">
+        <div class="text-[9px] text-gray-600 tracking-[0.5em] uppercase">
+            © <span id="year"></span> ETHER EQUILIBRIUM STUDIO | DIGITAL POST-PRODUCTION
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('year').innerText = new Date().getFullYear();
+        function toggleMenu() { document.getElementById('menuSidebar').classList.toggle('active'); document.getElementById('overlay').classList.toggle('active'); }
+        function closeAllMenus() { document.getElementById('menuSidebar').classList.remove('active'); document.getElementById('overlay').classList.remove('active'); }
+
+        // --- LÓGICA DE PRESETS DE COLOR EN VIVO ---
+        function applyPreset(presetName, element) {
+            const sandbox = document.getElementById('gradingSandbox');
+            
+            // Eliminar clases previas
+            sandbox.classList.remove('preset-cyberpunk', 'preset-golden', 'preset-teal', 'preset-noir');
+            
+            // Aplicar la nueva clase si no es por defecto
+            if (presetName !== 'default') {
+                sandbox.classList.add('preset-' + presetName);
+            }
+
+            // Actualizar estilo activo de los botones
+            const buttons = document.querySelectorAll('.preset-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-emerald-500', 'bg-emerald-500/10', 'text-black', 'border-emerald-500');
+                btn.classList.add('border-white/10');
+            });
+
+            element.classList.remove('border-white/10');
+            element.classList.add('border-emerald-500', 'bg-emerald-500', 'text-black');
+        }
+
+        // --- EFECTO MATRIX TEMÁTICO DE COLOR (EMERALD) ---
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth, height = canvas.height = window.innerHeight;
+        const fontSize = 16, columns = Math.floor(width / fontSize), drops = Array(columns).fill(1);
+        
+        const photoTerms = ["LUT", "RAW", "RGB", "CMYK", "COLOR", "HUE", "SAT", "LUMA", "CURVE", "GRADIENT", "NOISE", "CONTRAST"];
+
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.15)"; ctx.fillRect(0, 0, width, height);
+            ctx.fillStyle = "#00ffd0"; ctx.font = "bold " + fontSize + "px 'JetBrains Mono'";
+            
+            for (let i = 0; i < drops.length; i++) {
+                const text = photoTerms[Math.floor(Math.random() * photoTerms.length)][0];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                
+                if (drops[i] * fontSize > height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 65);
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>

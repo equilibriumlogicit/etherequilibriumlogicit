@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edición de Fotografía & Adobe Photoshop | Ether Equilibrium</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=JetBrains+Mono:wght@100;200&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; background: #000; color: #fff; margin: 0; overflow-x: hidden; }
+
+        /* --- FONDO MATRIX DIGITAL --- */
+        #matrix-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.4; pointer-events: none; }
+
+        /* --- EFECTO NEON PARA EL LOGOTIPO PRINCIPAL --- */
+        @keyframes neonPulse {
+            0%, 100% { filter: grayscale(100%) brightness(0.1) drop-shadow(0 0 0px #6366f1); opacity: 0.3; transform: scale(0.97); }
+            45%, 55% { filter: grayscale(0%) brightness(1.2) drop-shadow(0 0 20px #6366f1); opacity: 1; transform: scale(1.03); }
+            50% { filter: grayscale(0%) brightness(2) drop-shadow(0 0 40px #6366f1); opacity: 0.9; }
+        }
+
+        .brand-logo-img { 
+            width: 140px; height: 140px; object-fit: cover; border-radius: 16px; 
+            border: 2px solid rgba(255,255,255,0.1); 
+            animation: neonPulse 6s ease-in-out infinite; 
+        }
+
+        /* --- LOGOS TIPO ADOBE EN CSS --- */
+        .adobe-logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', sans-serif;
+            font-weight: 800;
+            font-size: 20px;
+            user-select: none;
+            transition: 0.3s;
+        }
+        
+        /* Estilos específicos imitando la paleta real de Adobe */
+        .logo-ps {
+            background-color: #001e36;
+            border: 2px solid #00c8ff;
+            color: #00c8ff;
+            box-shadow: 0 0 15px rgba(0, 200, 255, 0.2);
+        }
+        
+        .logo-fm {
+            background-color: #1e002c;
+            border: 2px solid #e200ff;
+            color: #e200ff;
+            box-shadow: 0 0 15px rgba(226, 0, 255, 0.2);
+        }
+
+        .logo-lr {
+            background-color: #001d21;
+            border: 2px solid #00ffd0;
+            color: #00ffd0;
+            box-shadow: 0 0 15px rgba(0, 255, 208, 0.2);
+        }
+
+        .logo-br {
+            background-color: #1f1a00;
+            border: 2px solid #ffcc00;
+            color: #ffcc00;
+            box-shadow: 0 0 15px rgba(255, 204, 0, 0.2);
+        }
+
+        /* --- SIDEBARS --- */
+        .sidebar { position: fixed; top: 0; height: 100vh; width: 350px; background: #080808; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); z-index: 2000; padding: 2.5rem; overflow-y: auto; }
+        #menuSidebar { right: -350px; border-left: 1px solid rgba(99, 102, 241, 0.3); }
+        #menuSidebar.active { transform: translateX(-350px); }
+
+        .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); opacity: 0; visibility: hidden; transition: 0.4s; z-index: 1500; }
+        .sidebar-overlay.active { opacity: 1; visibility: visible; }
+
+        .glass-header { background: rgba(0,0,0,0.85); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.05); position: fixed; width: 100%; top: 0; z-index: 100; }
+        
+        .tech-card { 
+            background: rgba(255, 255, 255, 0.03); 
+            backdrop-filter: blur(15px); 
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            padding: 2.5rem; 
+            border-radius: 20px; 
+            transition: 0.4s; 
+        }
+        .tech-card:hover { border-color: #6366f1; transform: translateY(-5px); background: rgba(99, 102, 241, 0.05); }
+        
+        /* Efecto hover interactivo para los logos de las tarjetas */
+        .tech-card:hover .logo-ps { box-shadow: 0 0 25px rgba(0, 200, 255, 0.6); }
+        .tech-card:hover .logo-fm { box-shadow: 0 0 25px rgba(226, 0, 255, 0.6); }
+        .tech-card:hover .logo-lr { box-shadow: 0 0 25px rgba(0, 255, 208, 0.6); }
+        .tech-card:hover .logo-br { box-shadow: 0 0 25px rgba(255, 204, 0, 0.6); }
+
+        .badge { font-family: 'JetBrains Mono'; font-size: 10px; color: #6366f1; border: 1px solid #6366f1; padding: 2px 8px; border-radius: 4px; margin-right: 5px; }
+    </style>
+</head>
+<body>
+
+    <canvas id="matrix-canvas"></canvas>
+    <div id="overlay" class="sidebar-overlay" onclick="closeAllMenus()"></div>
+
+    <!-- Menú de Navegación -->
+    <div id="menuSidebar" class="sidebar">
+        <div class="flex justify-between items-center mb-10 text-indigo-500 font-bold uppercase tracking-widest text-[10px]">
+            <span>Explorar Servicios</span>
+            <button onclick="closeAllMenus()"><i class="fas fa-times text-lg"></i></button>
+        </div>
+        <div class="space-y-4">
+            <a href="index.html" class="block p-5 bg-white/5 rounded-lg border border-transparent hover:border-indigo-500 text-xs font-bold uppercase tracking-widest transition-all">
+                <i class="fas fa-home mr-3 text-indigo-500"></i> Inicio
+            </a>
+            <div class="pt-4 pb-2 text-[9px] text-gray-600 font-bold uppercase tracking-widest">Especialidades</div>
+            <a href="retoque.html" class="block p-5 bg-white/5 rounded-lg border border-transparent hover:border-indigo-500 text-xs font-bold uppercase tracking-widest transition-all">Retoque High-End</a>
+            <a href="fotomontaje.html" class="block p-5 bg-white/5 rounded-lg border border-transparent hover:border-indigo-500 text-xs font-bold uppercase tracking-widest transition-all">Composición Digital</a>
+            <a href="colorizacion.html" class="block p-5 bg-white/5 rounded-lg border border-transparent hover:border-indigo-500 text-xs font-bold uppercase tracking-widest transition-all">Corrección de Color</a>
+        </div>
+    </div>
+
+    <!-- Encabezado -->
+    <header class="glass-header h-52 flex items-center">
+        <div class="max-w-7xl mx-auto px-8 w-full flex items-center justify-between relative z-50">
+            <button onclick="toggleMenu()" class="w-14 h-14 flex items-center justify-center border border-white/10 rounded-full hover:bg-indigo-500/10 transition-all"><i class="fas fa-bars text-indigo-400 text-xl"></i></button>
+            
+            <div class="flex items-center gap-8">
+                <!-- Tu logotipo (puedes cambiar aveeuro.jpg por tu logo de Photoshop/Studio) -->
+                <img src="./aveeuro.jpg" alt="Logo" class="brand-logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="hidden w-[140px] h-[140px] border-2 border-indigo-500/30 rounded-2xl items-center justify-center bg-indigo-500/5">
+                    <div class="adobe-logo logo-ps scale-150">Ps</div>
+                </div>
+                <div class="text-center">
+                    <span class="text-4xl font-black tracking-[0.3em] block uppercase">ETHER EQUILIBRIUM</span>
+                    <span class="text-[10px] text-gray-500 font-bold tracking-[0.6em] uppercase mt-2 block">Digital Imagery & Photo Design</span>
+                </div>
+            </div>
+
+            <div class="w-14 h-14"></div> <!-- Espaciador -->
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="pt-72 pb-20 relative z-10">
+        <section class="max-w-5xl mx-auto px-8 mb-20">
+            <h1 class="text-6xl font-black mb-6">Estudio Creativo Digital</h1>
+            <p class="text-gray-400 text-xl leading-relaxed">
+                Especialistas en el tratamiento avanzado de imágenes. Llevamos tus fotografías al siguiente nivel mediante postproducción profesional en <span class="text-white">Adobe Photoshop</span>, manipulación digital y optimización cromática de nivel comercial.
+            </p>
+        </section>
+
+        <section class="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <!-- Retoque Editorial e High-End (Photoshop - Ps) -->
+            <div class="tech-card">
+                <div class="adobe-logo logo-ps mb-6">Ps</div>
+                <h3 class="text-xl font-bold uppercase tracking-widest mb-4">Retoque High-End & Beauty</h3>
+                <p class="text-gray-400 text-sm mb-6">
+                    Tratamiento de piel profesional con separación de frecuencias, corrección de imperfecciones, micro Dodge & Burn y preservación exacta de la textura original.
+                </p>
+                <div>
+                    <span class="badge">Frequency Separation</span><span class="badge">Dodge & Burn</span><span class="badge">Editorial</span>
+                </div>
+            </div>
+
+            <!-- Composición y Fotomontaje (Fotomontaje Creative Cloud - Fm) -->
+            <div class="tech-card">
+                <div class="adobe-logo logo-fm mb-6">Fm</div>
+                <h3 class="text-xl font-bold uppercase tracking-widest mb-4">Fotomontaje & Matte Painting</h3>
+                <p class="text-gray-400 text-sm mb-6">
+                    Creación de mundos e integración de elementos complejos. Recortes milimétricos, perspectivas artificiales y fusión lumínica para composiciones realistas e impactantes.
+                </p>
+                <div>
+                    <span class="badge">Blending</span><span class="badge">Compositing</span><span class="badge">Smart Objects</span>
+                </div>
+            </div>
+
+            <!-- Corrección de Color (Lightroom / Raw - Lr) -->
+            <div class="tech-card">
+                <div class="adobe-logo logo-lr mb-6">Lr</div>
+                <h3 class="text-xl font-bold uppercase tracking-widest mb-4">Color Grading & Revelado RAW</h3>
+                <p class="text-gray-400 text-sm mb-6">
+                    Calibración cromática y corrección de color a través de Camera Raw y curvas avanzadas. Creación de atmósferas visuales personalizadas para portafolios cinematográficos o comerciales.
+                </p>
+                <div>
+                    <span class="badge">Camera RAW</span><span class="badge">RGB Curves</span><span class="badge">Color Match</span>
+                </div>
+            </div>
+
+            <!-- Optimización de Ecommerce (Bridge / Asset Management - Br) -->
+            <div class="tech-card">
+                <div class="adobe-logo logo-br mb-6">Br</div>
+                <h3 class="text-xl font-bold uppercase tracking-widest mb-4">Edición Comercial & E-Commerce</h3>
+                <p class="text-gray-400 text-sm mb-6">
+                    Limpieza de producto, silueteado con trazados de pluma perfectos, aplicación de sombras naturales o reflejos y optimización de assets para catálogos web.
+                </p>
+                <div>
+                    <span class="badge">Pen Tool</span><span class="badge">Product Clean</span><span class="badge">Web Ready</span>
+                </div>
+            </div>
+
+        </section>
+
+        <div class="text-center mt-20">
+            <a href="index.html" class="inline-block px-12 py-5 border border-indigo-500 text-indigo-500 font-bold uppercase text-xs tracking-widest hover:bg-indigo-500 hover:text-white transition-all">
+                Regresar al Estudio Principal
+            </a>
+        </div>
+    </main>
+
+    <!-- Pie de página -->
+    <footer class="py-16 text-center border-t border-white/5 relative z-10">
+        <div class="text-[9px] text-gray-600 tracking-[0.5em] uppercase">
+            © <span id="year"></span> ETHER EQUILIBRIUM STUDIO | DIGITAL POST-PRODUCTION & PHOTOSHOP ARCHITECTURE
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('year').innerText = new Date().getFullYear();
+        function toggleMenu() { document.getElementById('menuSidebar').classList.toggle('active'); document.getElementById('overlay').classList.toggle('active'); }
+        function closeAllMenus() { document.getElementById('menuSidebar').classList.remove('active'); document.getElementById('overlay').classList.remove('active'); }
+
+        // --- EFECTO DE LLUVIA DIGITAL DE CONCEPTOS FOTOGRÁFICOS ---
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth, height = canvas.height = window.innerHeight;
+        const fontSize = 16, columns = Math.floor(width / fontSize), drops = Array(columns).fill(1);
+        
+        // Palabras temáticas que caerán de fondo
+        const photoTerms = ["PSD", "RAW", "RGB", "CMYK", "FX", "PX", "ISO", "TIFF", "LAYER", "MASK", "OPACITY", "SMART_OBJ"];
+
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.15)"; ctx.fillRect(0, 0, width, height);
+            ctx.fillStyle = "#6366f1"; ctx.font = "bold " + fontSize + "px 'JetBrains Mono'";
+            
+            for (let i = 0; i < drops.length; i++) {
+                const text = photoTerms[Math.floor(Math.random() * photoTerms.length)][0];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                
+                if (drops[i] * fontSize > height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 60);
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>

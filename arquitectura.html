@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arquitectura Core | Ether Logic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=JetBrains+Mono:wght@100;400&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; background: #000; color: #fff; margin: 0; overflow-x: hidden; }
+
+        /* --- MATRIX BACKGROUND --- */
+        #matrix-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.6; }
+
+        /* --- GLASS OVERLAY --- */
+        .content-wrapper { position: relative; z-index: 10; background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.8) 100%); min-height: 100vh; }
+
+        /* --- HEADER --- */
+        .glass-header { background: rgba(0,0,0,0.85); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(99, 102, 241, 0.3); position: fixed; width: 100%; top: 0; z-index: 100; }
+
+        /* --- INTERACTIVE CARDS --- */
+        .commercial-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 3rem;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            cursor: pointer;
+        }
+        .commercial-card:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: #6366f1;
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        /* --- CTA BUTTON ANIMATION --- */
+        .btn-reserve {
+            background: #6366f1;
+            position: relative;
+            overflow: hidden;
+            transition: 0.4s;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+        }
+        .btn-reserve:hover {
+            background: #4f46e5;
+            box-shadow: 0 0 40px rgba(99, 102, 241, 0.8);
+            transform: scale(1.05);
+        }
+        .btn-reserve::after {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: rgba(255,255,255,0.1); transform: rotate(45deg); transition: 0.5s;
+        }
+        .btn-reserve:hover::after { left: 120%; }
+
+        .stat-glow { text-shadow: 0 0 15px #6366f1; }
+    </style>
+</head>
+<body>
+
+    <audio id="bg-music" loop>
+        <source src="Rob Dougan - Clubbed To Death.mp3" type="audio/mpeg">
+    </audio>
+
+    <canvas id="matrix-canvas"></canvas>
+
+    <div class="content-wrapper">
+        <header class="glass-header h-32 flex items-center">
+            <div class="max-w-7xl mx-auto px-8 w-full flex items-center justify-between">
+                <div class="flex items-center gap-6 cursor-pointer" onclick="location.href='index.html'">
+                    <img src="aveeuro.jpg" alt="Logo" class="w-16 h-16 rounded-xl border border-indigo-500/50">
+                    <div class="hidden md:block">
+                        <span class="text-2xl font-black tracking-widest block">ETHER LOGIC</span>
+                        <span class="text-[9px] text-indigo-400 font-mono tracking-[0.5em] uppercase">Spiritual Data Systems</span>
+                    </div>
+                </div>
+                <nav class="flex gap-8 text-[10px] font-bold uppercase tracking-widest">
+                    <a href="index.html" class="hover:text-indigo-500 transition-colors">Home</a>
+                    <a href="reserva.html" class="text-indigo-500 border-b border-indigo-500">Reservar Nodo</a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="pt-52 pb-20">
+            <div class="max-w-7xl mx-auto px-8">
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-32">
+                    <div>
+                        <h1 class="text-6xl md:text-8xl font-black leading-tight mb-8">DISEÑO DE <br><span class="text-indigo-500 stat-glow">NÚCLEO.</span></h1>
+                        <p class="text-gray-300 text-xl leading-relaxed mb-10 border-l-2 border-indigo-500 pl-6">
+                            Arquitecturas que trascienden el código convencional. Implementamos estructuras de datos distribuidas bajo la filosofía de Ether Equilibrium.
+                        </p>
+                        <a href="reserva.html" class="btn-reserve inline-block px-12 py-5 rounded-full font-bold uppercase tracking-[0.2em] text-sm">
+                            Consultar Disponibilidad
+                        </a>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-8 bg-white/5 rounded-3xl border border-white/10 text-center">
+                            <span class="block text-4xl font-black stat-glow mb-2">99.9%</span>
+                            <span class="text-[10px] text-gray-500 uppercase tracking-widest">Estabilidad Core</span>
+                        </div>
+                        <div class="p-8 bg-white/5 rounded-3xl border border-white/10 text-center mt-8">
+                            <span class="block text-4xl font-black stat-glow mb-2">0ms</span>
+                            <span class="text-[10px] text-gray-500 uppercase tracking-widest">Latencia Espiritual</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="commercial-card group">
+                        <i class="fas fa-microchip text-4xl text-indigo-500 mb-8"></i>
+                        <h3 class="text-2xl font-bold mb-4">Sistemas en C++</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Desarrollo de bajo nivel para aplicaciones que requieren un control absoluto sobre el hardware.</p>
+                    </div>
+                    <div class="commercial-card group">
+                        <i class="fas fa-project-diagram text-4xl text-indigo-500 mb-8"></i>
+                        <h3 class="text-2xl font-bold mb-4">Malla de Datos</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Arquitecturas descentralizadas que eliminan puntos únicos de fallo en su infraestructura.</p>
+                    </div>
+                    <div class="commercial-card group">
+                        <i class="fas fa-brain text-4xl text-indigo-500 mb-8"></i>
+                        <h3 class="text-2xl font-bold mb-4">Lógica Cuántica</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Algoritmos de optimización inspirados en procesos biológicos y espirituales.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="py-16 text-center opacity-50">
+            <p class="text-[9px] tracking-[0.8em] uppercase">Ether Logic Group © 2026 | Matrix Division</p>
+        </footer>
+    </div>
+
+    <script>
+        // --- MATRIX LOGIC (CON INTERACCIÓN DE RATÓN) ---
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+        let mouse = { x: -1000, y: -1000 };
+
+        const fontSize = 16;
+        const columns = Math.floor(width / fontSize);
+        const drops = Array(columns).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+            ctx.fillRect(0, 0, width, height);
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = String.fromCharCode(0x30A0 + Math.random() * 96);
+                const x = i * fontSize;
+                const y = drops[i] * fontSize;
+
+                // Si el carácter está cerca del ratón, brilla más fuerte
+                const dist = Math.hypot(x - mouse.x, y - mouse.y);
+                ctx.fillStyle = dist < 150 ? "#fff" : "#6366f1";
+                
+                ctx.fillText(text, x, y);
+                if (y > height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 50);
+
+        window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+        window.onresize = () => { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; };
+
+        // --- AUDIO LOGIC (SINCRO ETHER) ---
+        const audio = document.getElementById('bg-music');
+        let audioActive = false;
+        const startAudio = () => { if(!audioActive) { audio.play().then(()=> audioActive = true).catch(()=>{}); } };
+        ['mousedown', 'scroll', 'touchstart'].forEach(e => window.addEventListener(e, startAudio, {once: true}));
+        
+        // Pausa al salir del navegador
+        window.addEventListener('blur', () => { if(audioActive) audio.pause(); });
+        window.addEventListener('focus', () => { if(audioActive) audio.play(); });
+    </script>
+</body>
+</html>
